@@ -228,11 +228,11 @@ export default function TrivioPage() {
             <Home className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-amber-500 flex items-center justify-center font-black text-white text-sm shadow-md">
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-amber-500 flex items-center justify-center font-black text-white text-sm shadow-md shrink-0">
               T
             </div>
-            <h1 className="text-sm sm:text-base font-black tracking-tight text-white flex items-center gap-1.5">
+            <h1 className="text-sm sm:text-base font-black tracking-tight text-white flex items-center gap-1.5 whitespace-nowrap">
               트리비오 <span className="text-[9px] bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-black px-1.5 py-0.5 rounded-sm">TRIVIO</span>
             </h1>
           </div>
@@ -268,11 +268,11 @@ export default function TrivioPage() {
         {/* 모드 탭 (무한 모드 / 데일리 퀴즈) & 최고 기록 */}
         <div className="flex items-center justify-between gap-2">
           {/* 세그먼트 모드 탭 */}
-          <div className="flex items-center bg-slate-950/70 p-1 rounded-xl border border-slate-800 text-xs shadow-inner">
+          <div className="flex items-center bg-slate-950/70 p-1 rounded-xl border border-slate-800 text-xs shadow-inner shrink-0">
             <button
               type="button"
               onClick={() => triggerStartWithAd('endless', theme)}
-              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer whitespace-nowrap ${
                 mode === 'endless'
                   ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
                   : 'text-slate-400 hover:text-white'
@@ -283,20 +283,20 @@ export default function TrivioPage() {
             <button
               type="button"
               onClick={() => triggerStartWithAd('daily', 'all')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap ${
                 mode === 'daily'
                   ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-3.5 h-3.5 shrink-0" />
               <span>데일리 퀴즈</span>
             </button>
           </div>
 
           {/* 최고 기록 */}
-          <div className="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1.5 rounded-xl border border-slate-700/60 text-xs">
-            <Trophy className="w-3.5 h-3.5 text-amber-400" />
+          <div className="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1.5 rounded-xl border border-slate-700/60 text-xs shrink-0 whitespace-nowrap">
+            <Trophy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span className="text-[11px] text-slate-400 font-semibold">최고</span>
             <strong className="text-amber-300 font-black">{highScore}점</strong>
           </div>
