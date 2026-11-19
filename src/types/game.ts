@@ -1,6 +1,9 @@
 export type Category =
-  | 'history'
-  | 'entertainment'
+  | 'korea'
+  | 'world_history'
+  | 'wars'
+  | 'films'
+  | 'music'
   | 'games'
   | 'tech'
   | 'science'
@@ -8,7 +11,9 @@ export type Category =
   | 'sports'
   | 'art'
   | 'leaders'
-  | 'korea'
+  // legacy compatibility
+  | 'history'
+  | 'entertainment'
   | 'east_asia'
   | 'world'
   | 'it';
@@ -18,7 +23,7 @@ export interface HistoryEvent {
   title: string;
   year: number; // 기원전은 음수 (예: BC 221 -> -221)
   category: Category;
-  tags?: string[]; // e.g. ['film', 'game', 'music', 'war', 'korean_leader']
+  tags?: string[];
   tmi: string;
   wikiTitleKo?: string;
   wikiTitleEn?: string;
@@ -30,12 +35,14 @@ export interface PlacedEvent extends HistoryEvent {
   status: 'correct' | 'wrong' | 'anchor';
 }
 
-export type GameMode = 'endless' | 'daily' | 'theme';
+export type GameMode = 'endless' | 'daily';
 
 export type ThemeCategory =
   | 'all'
-  | 'history'
-  | 'entertainment'
+  | 'korea'
+  | 'world_history'
+  | 'films'
+  | 'music'
   | 'games'
   | 'tech'
   | 'science'
@@ -43,10 +50,7 @@ export type ThemeCategory =
   | 'sports'
   | 'art'
   | 'leaders'
-  | 'films'
-  | 'music'
-  | 'wars'
-  | 'korean_leaders';
+  | 'wars';
 
 export interface GameState {
   mode: GameMode;

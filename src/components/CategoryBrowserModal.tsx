@@ -15,19 +15,18 @@ interface CategoryOption {
   key: ThemeCategory;
   titleKo: string;
   titleEn: string;
-  countHint?: string;
 }
 
 const BROWSE_CATEGORIES: CategoryOption[] = [
-  { key: 'all', titleKo: '전체 카테고리', titleEn: 'ALL CATEGORIES' },
-  { key: 'history', titleKo: '역사 & 세계사', titleEn: 'HISTORY' },
-  { key: 'entertainment', titleKo: '엔터테인먼트', titleEn: 'ENTERTAINMENT' },
-  { key: 'leaders', titleKo: '지도자 & 인물', titleEn: 'LEADERS & PEOPLE' },
-  { key: 'art', titleKo: '예술 & 랜드마크', titleEn: 'ART & LANDMARKS' },
+  { key: 'all', titleKo: '전체 믹스 (모든 분야)', titleEn: 'ALL CATEGORIES' },
+  { key: 'korea', titleKo: '한국사', titleEn: 'KOREAN HISTORY' },
+  { key: 'world_history', titleKo: '세계사', titleEn: 'WORLD HISTORY' },
+  { key: 'tech', titleKo: 'IT & 테크', titleEn: 'TECHNOLOGY' },
+  { key: 'science', titleKo: '과학 & 발명', titleEn: 'SCIENCE' },
   { key: 'business', titleKo: '기업 & 브랜드', titleEn: 'BUSINESS' },
-  { key: 'tech', titleKo: '기술 & IT', titleEn: 'TECHNOLOGY' },
-  { key: 'science', titleKo: '과학 & 발명', titleEn: 'SCIENCE & ENGINEERING' },
   { key: 'sports', titleKo: '스포츠', titleEn: 'SPORT' },
+  { key: 'art', titleKo: '예술 & 랜드마크', titleEn: 'ART & ARCHITECTURE' },
+  { key: 'leaders', titleKo: '인물 & 지도자', titleEn: 'LEADERS & PEOPLE' },
 ];
 
 const FEATURED_CATEGORIES: CategoryOption[] = [
@@ -35,7 +34,6 @@ const FEATURED_CATEGORIES: CategoryOption[] = [
   { key: 'music', titleKo: '음악 & K-POP', titleEn: 'MUSIC' },
   { key: 'games', titleKo: '비디오 게임', titleEn: 'VIDEO GAMES' },
   { key: 'wars', titleKo: '전쟁 & 전투사', titleEn: 'WARS' },
-  { key: 'korean_leaders', titleKo: '한국사 & 인물', titleEn: 'KOREAN HISTORY' },
 ];
 
 export const CategoryBrowserModal: React.FC<CategoryBrowserModalProps> = ({
@@ -48,7 +46,7 @@ export const CategoryBrowserModal: React.FC<CategoryBrowserModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-slate-900 border border-slate-700/80 p-5 sm:p-7 shadow-2xl text-slate-100 flex flex-col justify-between animate-in zoom-in-95 duration-200 scrollbar-thin">
+      <div className="w-full max-w-xl max-h-[88vh] overflow-y-auto rounded-3xl bg-slate-900 border border-slate-700/80 p-5 sm:p-7 shadow-2xl text-slate-100 flex flex-col justify-between animate-in zoom-in-95 duration-200 scrollbar-thin">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-800">
           <div>
@@ -57,7 +55,7 @@ export const CategoryBrowserModal: React.FC<CategoryBrowserModalProps> = ({
               Trivio Browse
             </span>
             <h2 className="text-xl font-black text-white mt-0.5">
-              카테고리 탐색
+              퀴즈 카테고리 선택
             </h2>
           </div>
           <button

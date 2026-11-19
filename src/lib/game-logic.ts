@@ -23,47 +23,13 @@ export function shuffleDeck<T>(array: T[], rng = Math.random): T[] {
 export function getFilteredPool(theme: ThemeCategory): HistoryEvent[] {
   if (theme === 'all') return HISTORY_EVENTS;
 
-  if (theme === 'history') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'history' || e.tags?.includes('history'));
-  }
-  if (theme === 'entertainment') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'entertainment' || e.tags?.includes('entertainment'));
-  }
-  if (theme === 'games') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'games' || e.tags?.includes('games'));
-  }
-  if (theme === 'tech') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'tech' || e.tags?.includes('tech'));
-  }
-  if (theme === 'science') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'science' || e.tags?.includes('science'));
-  }
-  if (theme === 'business') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'business' || e.tags?.includes('business'));
-  }
-  if (theme === 'sports') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'sports' || e.tags?.includes('sports'));
-  }
-  if (theme === 'art') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'art' || e.tags?.includes('art'));
-  }
-  if (theme === 'leaders') {
-    return HISTORY_EVENTS.filter((e) => e.category === 'leaders' || e.tags?.includes('leaders'));
-  }
-  if (theme === 'films') {
-    return HISTORY_EVENTS.filter((e) => e.tags?.includes('films'));
-  }
-  if (theme === 'music') {
-    return HISTORY_EVENTS.filter((e) => e.tags?.includes('music'));
-  }
-  if (theme === 'wars') {
-    return HISTORY_EVENTS.filter((e) => e.tags?.includes('wars'));
-  }
-  if (theme === 'korean_leaders') {
-    return HISTORY_EVENTS.filter((e) => e.tags?.includes('korean_leaders'));
-  }
+  const filtered = HISTORY_EVENTS.filter((e) => {
+    if (e.category === theme) return true;
+    if (e.tags && e.tags.includes(theme)) return true;
+    return false;
+  });
 
-  return HISTORY_EVENTS;
+  return filtered.length >= 2 ? filtered : HISTORY_EVENTS;
 }
 
 // 1~5턴은 기존 배치 카드들과 최소 100년 이상 격차 우선 선별
@@ -90,13 +56,16 @@ export function pickNextCardWithCurve(
 }
 
 export function formatYear(year: number): string {
-  if (year < 0) return `BC ${Math.abs(year)}년`;
+  if (year < 0) {
+    return `BC ${Math.abs(year)}년`;
+  }
   return `${year}년`;
 }
 
 export function getHistoryTitle(score: number): { title: string; emoji: string } {
-  if (score <= 3) return { title: '역사 입문자', emoji: '🐣' };
-  if (score <= 7) return { title: '시간 여행자', emoji: '⏳' };
-  if (score <= 12) return { title: '타임라인 지배자', emoji: '👑' };
-  return { title: '살아있는 실록', emoji: '📜' };
+  if (score >= 15) return { title: '시간의 절대 지배자', emoji: '👑' };
+  if (score >= 10) return { title: '살아있는 백과사전', emoji: '⚡' };
+  if (score >= 6) return { title: '만능 시간 여행자', emoji: '⏳' };
+  if (score >= 3) return { title: '상식 탐험가', emoji: '🧭' };
+  return { title: '트리비오 입문자', emoji: '📜' };
 }

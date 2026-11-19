@@ -12,23 +12,22 @@ import { EventCard } from '@/components/EventCard';
 import { TimelineBoard } from '@/components/TimelineBoard';
 import { ResultModal } from '@/components/ResultModal';
 import { CategoryBrowserModal } from '@/components/CategoryBrowserModal';
-import { Heart, Flame, Calendar, Layers, Sparkles, LayoutGrid, ChevronDown } from 'lucide-react';
+import { Heart, Flame, Calendar, Layers, Sparkles, ChevronDown, Trophy } from 'lucide-react';
 
-const THEME_NAMES: Record<ThemeCategory, string> = {
-  all: '전체 무한',
-  history: '역사 & 세계사',
-  entertainment: '엔터테인먼트',
-  games: '비디오 게임',
-  tech: '기술 & IT',
-  science: '과학 & 발명',
-  business: '기업 & 브랜드',
-  sports: '스포츠',
-  art: '예술 & 랜드마크',
-  leaders: '지도자 & 인물',
-  films: '영화',
-  music: '음악 & K-POP',
-  wars: '전쟁 & 전투사',
-  korean_leaders: '한국사 & 인물',
+const THEME_INFO: Record<ThemeCategory, { name: string; icon: string }> = {
+  all: { name: '전체 믹스 (모든 분야)', icon: '🌐' },
+  korea: { name: '한국사', icon: '🇰🇷' },
+  world_history: { name: '세계사', icon: '🌍' },
+  films: { name: '영화', icon: '🎬' },
+  music: { name: '음악 & K-POP', icon: '🎵' },
+  games: { name: '비디오 게임', icon: '🎮' },
+  tech: { name: 'IT & 테크', icon: '💻' },
+  science: { name: '과학 & 발명', icon: '🚀' },
+  business: { name: '기업 & 브랜드', icon: '🏢' },
+  sports: { name: '스포츠', icon: '🏆' },
+  art: { name: '예술 & 랜드마크', icon: '🎨' },
+  leaders: { name: '인물 & 지도자', icon: '👑' },
+  wars: { name: '전쟁 & 전투사', icon: '⚔️' },
 };
 
 export default function TrivioPage() {
@@ -163,6 +162,8 @@ export default function TrivioPage() {
     }
   };
 
+  const currentThemeInfo = THEME_INFO[theme] || THEME_INFO.all;
+
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between selection:bg-amber-500 selection:text-white">
       {/* 1. 상단 글로벌 헤더 & 상태바 */}
@@ -203,54 +204,71 @@ export default function TrivioPage() {
         </div>
       </header>
 
-      {/* 2. 게임 모드 & 카테고리 브라우저 셀렉터 */}
-      <div className="max-w-3xl mx-auto w-full px-4 pt-3 flex flex-wrap items-center justify-between gap-2 text-xs">
-        <div className="flex flex-wrap items-center gap-1.5 bg-slate-800/80 p-1 rounded-xl border border-slate-700">
-          <button
-            type="button"
-            onClick={() => startNewGame('endless', 'all')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${
-              mode === 'endless' && theme === 'all'
-                ? 'bg-amber-500 text-white shadow-xs'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            전체 무한
-          </button>
-          <button
-            type="button"
-            onClick={() => startNewGame('daily', 'all')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1 cursor-pointer ${
-              mode === 'daily'
-                ? 'bg-amber-500 text-white shadow-xs'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            데일리 10
-          </button>
+      {/* 2. 상단 게임 모드 & 카테고리 컨트롤바 (모바일 반응형 최적화) */}
+      <div className="max-w-xl mx-auto w-full px-4 pt-3 space-y-2">
+        {/* 모드 탭 (무한 모드 / 데일리 퀴즈) & 최고 기록 */}
+        <div className="flex items-center justify-between gap-2">
+          {/* 세그먼트 모드 탭 */}
+          <div className="flex items-center bg-slate-950/70 p-1 rounded-xl border border-slate-800 text-xs shadow-inner">
+            <button
+              type="button"
+              onClick={() => startNewGame('endless', theme)}
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                mode === 'endless'
+                  ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              무한 모드
+            </button>
+            <button
+              type="button"
+              onClick={() => startNewGame('daily', 'all')}
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                mode === 'daily'
+                  ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Calendar className="w-3.5 h-3.5" />
+              <span>데일리 퀴즈</span>
+            </button>
+          </div>
+
+          {/* 최고 기록 */}
+          <div className="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1.5 rounded-xl border border-slate-700/60 text-xs">
+            <Trophy className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-[11px] text-slate-400 font-semibold">최고</span>
+            <strong className="text-amber-300 font-black">{highScore}점</strong>
+          </div>
+        </div>
+
+        {/* 카테고리 선택 알약 버튼 */}
+        {mode === 'endless' ? (
           <button
             type="button"
             onClick={() => setIsCategoryModalOpen(true)}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1 cursor-pointer ${
-              theme !== 'all'
-                ? 'bg-indigo-600 text-white shadow-xs'
-                : 'bg-slate-700/60 text-slate-300 hover:text-white'
-            }`}
+            className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-750 active:bg-slate-700 border border-slate-700/80 hover:border-amber-400/60 transition-all text-xs text-slate-200 cursor-pointer shadow-sm group"
           >
-            <LayoutGrid className="w-3.5 h-3.5" />
-            <span>{theme !== 'all' ? THEME_NAMES[theme] : '카테고리 탐색'}</span>
-            <ChevronDown className="w-3 h-3 ml-0.5 opacity-70" />
+            <div className="flex items-center gap-2">
+              <span className="text-sm">{currentThemeInfo.icon}</span>
+              <span className="font-extrabold text-white text-xs">{currentThemeInfo.name}</span>
+              <span className="text-[10px] text-slate-400 font-medium">카테고리</span>
+            </div>
+            <div className="flex items-center gap-1 text-[11px] font-bold text-amber-400 group-hover:text-amber-300">
+              <span>변경</span>
+              <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
+            </div>
           </button>
-        </div>
-
-        <span className="text-[11px] text-slate-400 font-medium">
-          최고 기록: <strong className="text-amber-300">{highScore}점</strong>
-        </span>
+        ) : (
+          <div className="px-3 py-1.5 rounded-xl bg-indigo-950/40 border border-indigo-500/30 text-center text-[11px] text-indigo-300 font-medium">
+            📅 오늘 날짜 고정 출제 (총 10문제 챌린지)
+          </div>
+        )}
       </div>
 
       {/* 3. 중앙 출제 카드 영역 */}
-      <div className="my-auto py-4 flex flex-col items-center">
+      <div className="my-auto py-3 flex flex-col items-center">
         {feedbackMsg && (
           <div
             className={`text-xs font-bold px-3 py-1 rounded-full mb-3 animate-bounce ${
@@ -293,13 +311,13 @@ export default function TrivioPage() {
         />
       </div>
 
-      {/* 5. 카테고리 브라우저 모달 (FREE PLAY / BROWSE & FEATURED) */}
+      {/* 5. 카테고리 브라우저 모달 */}
       <CategoryBrowserModal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
         currentTheme={theme}
         onSelectTheme={(selectedTheme) => {
-          startNewGame(selectedTheme === 'all' ? 'endless' : 'theme', selectedTheme);
+          startNewGame('endless', selectedTheme);
         }}
       />
 

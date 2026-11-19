@@ -3,7 +3,7 @@
     "id": "e1",
     "title": "진시황, 중국 최초 천하통일",
     "year": -221,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "leaders",
@@ -17,7 +17,7 @@
     "id": "e2",
     "title": "율리우스 카이사르 암살",
     "year": -44,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "leaders"
@@ -30,7 +30,7 @@
     "id": "e3",
     "title": "삼국지 적벽대전",
     "year": 208,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "wars"
@@ -43,7 +43,7 @@
     "id": "e4",
     "title": "광개토대왕비 건립",
     "year": 414,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history",
       "leaders",
@@ -57,7 +57,7 @@
     "id": "e5",
     "title": "을지문덕의 살수대첩",
     "year": 612,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history",
       "wars",
@@ -71,7 +71,7 @@
     "id": "e6",
     "title": "신라의 삼국통일 완성 (기벌포 해전)",
     "year": 676,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history",
       "wars"
@@ -84,7 +84,7 @@
     "id": "e7",
     "title": "칭기즈 칸, 몽골 제국 건국",
     "year": 1206,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "leaders",
@@ -98,7 +98,7 @@
     "id": "e8",
     "title": "조선 왕조 건국 (태조 이성계)",
     "year": 1392,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history",
       "leaders",
@@ -112,7 +112,7 @@
     "id": "e9",
     "title": "세종대왕, 훈민정음 창제",
     "year": 1443,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history",
       "leaders",
@@ -126,7 +126,7 @@
     "id": "e10",
     "title": "콜럼버스의 신대륙 도착",
     "year": 1492,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history"
     ],
@@ -150,7 +150,7 @@
     "id": "e12",
     "title": "임진왜란 발발",
     "year": 1592,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history",
       "wars",
@@ -164,7 +164,7 @@
     "id": "e13",
     "title": "일본 세키가하라 전투",
     "year": 1600,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "wars"
@@ -177,7 +177,7 @@
     "id": "e14",
     "title": "미국 독립선언서 발표",
     "year": 1776,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "leaders"
@@ -190,7 +190,7 @@
     "id": "e15",
     "title": "프랑스 대혁명 (바스티유 함락)",
     "year": 1789,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "wars"
@@ -318,7 +318,7 @@
     "id": "e25",
     "title": "경술국치 (한일강제병합)",
     "year": 1910,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history"
     ],
@@ -330,7 +330,7 @@
     "id": "e26",
     "title": "제1차 세계대전 발발",
     "year": 1914,
-    "category": "history",
+    "category": "wars",
     "tags": [
       "history",
       "wars"
@@ -343,7 +343,7 @@
     "id": "e27",
     "title": "최초의 유성 영화 '재즈 싱어' 개봉",
     "year": 1927,
-    "category": "entertainment",
+    "category": "films",
     "tags": [
       "entertainment",
       "films"
@@ -381,7 +381,7 @@
     "id": "e30",
     "title": "월트 디즈니 '백설공주와 일곱 난쟁이' 개봉",
     "year": 1937,
-    "category": "entertainment",
+    "category": "films",
     "tags": [
       "entertainment",
       "films",
@@ -395,7 +395,7 @@
     "id": "e31",
     "title": "제2차 세계대전 종전 & 대한민국 광복",
     "year": 1945,
-    "category": "history",
+    "category": "korea",
     "tags": [
       "history",
       "wars"
@@ -408,7 +408,7 @@
     "id": "e32",
     "title": "비틀즈 데뷔 앨범 'Please Please Me' 발매",
     "year": 1963,
-    "category": "entertainment",
+    "category": "music",
     "tags": [
       "entertainment",
       "music"
@@ -473,7 +473,7 @@
     "id": "e37",
     "title": "조지 루카스 영화 '스타워즈: 새로운 희망' 개봉",
     "year": 1977,
-    "category": "entertainment",
+    "category": "films",
     "tags": [
       "entertainment",
       "films"
@@ -486,7 +486,7 @@
     "id": "e38",
     "title": "마이클 잭슨, 역대 최다 판매 앨범 'Thriller' 발매",
     "year": 1982,
-    "category": "entertainment",
+    "category": "music",
     "tags": [
       "entertainment",
       "music"
@@ -538,7 +538,7 @@
     "id": "e42",
     "title": "베를린 장벽 붕괴",
     "year": 1989,
-    "category": "history",
+    "category": "world_history",
     "tags": [
       "history",
       "wars"
@@ -577,7 +577,7 @@
     "id": "e45",
     "title": "제임스 카메론 영화 '타이타닉' 개봉",
     "year": 1997,
-    "category": "entertainment",
+    "category": "films",
     "tags": [
       "entertainment",
       "films"
@@ -667,7 +667,7 @@
     "id": "e52",
     "title": "싸이, '강남스타일' 유튜브 전 세계 1위 돌파",
     "year": 2012,
-    "category": "entertainment",
+    "category": "music",
     "tags": [
       "entertainment",
       "music"
@@ -680,7 +680,7 @@
     "id": "e53",
     "title": "봉준호 감독 영화 '기생충', 아카데미 4관왕",
     "year": 2020,
-    "category": "entertainment",
+    "category": "films",
     "tags": [
       "entertainment",
       "films",
@@ -694,7 +694,7 @@
     "id": "e54",
     "title": "BTS 'Dynamite', 빌보드 핫 100 1위 달성",
     "year": 2020,
-    "category": "entertainment",
+    "category": "music",
     "tags": [
       "entertainment",
       "music"
@@ -728,5 +728,211 @@
     "tmi": "발롱도르 8회, 챔피언스리그 4회에 이어 마지막 퍼즐이었던 월드컵 트로피를 들어올리며 역대 최고의 축구 선수(GOAT) 반열에 올랐습니다.",
     "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Lionel_Messi_Argentina_v_Egypt_7_July_2026-112%28cropped%29.jpg/500px-Lionel_Messi_Argentina_v_Egypt_7_July_2026-112%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
     "imageCredit": "Bryan Berlin / CC BY-SA 4.0"
+  },
+  {
+    "id": "e57",
+    "title": "영화 '바람과 함께 사라지다' 개봉",
+    "year": 1939,
+    "category": "films",
+    "tags": [
+      "films",
+      "entertainment"
+    ],
+    "tmi": "\"내일은 내일의 태양이 뜬다\"라는 명대사를 남기며 인플레이션 반영 역대 전 세계 흥행 1위를 지키고 있습니다.",
+    "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Poster_-_Gone_With_the_Wind_01.jpg/500px-Poster_-_Gone_With_the_Wind_01.jpg",
+    "imageCredit": "Metro-Goldwyn-Mayer / Public domain"
+  },
+  {
+    "id": "e58",
+    "title": "스티븐 스필버그 영화 '쥬라기 공원' 개봉",
+    "year": 1993,
+    "category": "films",
+    "tags": [
+      "films",
+      "entertainment"
+    ],
+    "tmi": "컴퓨터 그래픽(CGI) 기술로 공룡을 스크린에 되살려 전 세계 관객에게 충격을 주며 흥행 신기록을 세웠습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e59",
+    "title": "크리스토퍼 놀란 영화 '인터스텔라' 개봉",
+    "year": 2014,
+    "category": "films",
+    "tags": [
+      "films",
+      "entertainment"
+    ],
+    "tmi": "물리학자 킵 손의 자문을 받아 블랙홀 가르간튀아를 시각화했으며, 한국에서만 천만 관객을 돌파했습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e60",
+    "title": "퀸(Queen) 'Bohemian Rhapsody' 싱글 발매",
+    "year": 1975,
+    "category": "music",
+    "tags": [
+      "music",
+      "entertainment"
+    ],
+    "tmi": "6분이 넘는 파격적인 오페라 록 구성으로 음반사들의 반대를 뚫고 영국 차트 9주 연속 1위를 차지했습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e61",
+    "title": "너바나(Nirvana) 전설의 앨범 'Nevermind' 발매",
+    "year": 1991,
+    "category": "music",
+    "tags": [
+      "music",
+      "entertainment"
+    ],
+    "tmi": "'Smells Like Teen Spirit'의 폭발적 반응으로 마이클 잭슨을 제치고 빌보드 앨범 차트 1위에 올랐습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e62",
+    "title": "원더걸스 'Tell Me' 국민 댄스 열풍",
+    "year": 2007,
+    "category": "music",
+    "tags": [
+      "music",
+      "entertainment"
+    ],
+    "tmi": "UCC 열풍과 함께 남녀노소 '어머나' 댄스를 따라 하며 2세대 K-POP 걸그룹 전성기를 열었습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e63",
+    "title": "소니 '플레이스테이션(PlayStation)' 1세대 일본 발매",
+    "year": 1994,
+    "category": "games",
+    "tags": [
+      "games",
+      "tech"
+    ],
+    "tmi": "CD-ROM 매체 기반의 3D 그래픽 혁신으로 비디오 게임기 역사상 최초로 1억 대 출하를 달성했습니다.",
+    "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/PSX-Console-wController.jpg/500px-PSX-Console-wController.jpg",
+    "imageCredit": "Evan-Amos / Public domain"
+  },
+  {
+    "id": "e64",
+    "title": "모장 '마인크래프트' 정식 버전 출시",
+    "year": 2011,
+    "category": "games",
+    "tags": [
+      "games",
+      "tech"
+    ],
+    "tmi": "샌드박스 인디 게임으로 시작해 3억 장 이상 판매되며 역사상 가장 많이 팔린 단일 비디오 게임이 되었습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e65",
+    "title": "닌텐도 스위치 & '젤다의 전설 야생의 숨결' 출시",
+    "year": 2017,
+    "category": "games",
+    "tags": [
+      "games",
+      "tech"
+    ],
+    "tmi": "휴대용과 거치형을 결합한 하이브리드 콘솔과 오픈월드의 새 지평을 연 명작으로 게임 대상을 휩쓸었습니다.",
+    "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Nintendo_Switch_Console.png/500px-Nintendo_Switch_Console.png",
+    "imageCredit": "Evan-Amos / Public domain"
+  },
+  {
+    "id": "e66",
+    "title": "왕건, 고려 건국",
+    "year": 918,
+    "category": "korea",
+    "tags": [
+      "korea",
+      "history",
+      "leaders"
+    ],
+    "tmi": "궁예를 몰아내고 철원에서 건국한 뒤 이듬해 송악(개성)으로 천도하며 후삼국 통일의 기틀을 닦았습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e67",
+    "title": "3·1 만세 운동 & 대한민국 임시정부 수립",
+    "year": 1919,
+    "category": "korea",
+    "tags": [
+      "korea",
+      "history"
+    ],
+    "tmi": "비폭력 독립 만세 운동의 열기를 이어받아 중국 상하이에서 대한민국 임시정부가 공식 출범했습니다.",
+    "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/3.1_movement.jpg/500px-3.1_movement.jpg",
+    "imageCredit": "Unknown / Public domain"
+  },
+  {
+    "id": "e68",
+    "title": "박세리, 맨발 투혼 US 여자오픈 최연소 우승",
+    "year": 1998,
+    "category": "sports",
+    "tags": [
+      "sports"
+    ],
+    "tmi": "워터 해저드에 양말을 벗고 들어가 샷을 성공시키며 IMF 외환위기로 지친 전 국민에게 희망을 안겨주었습니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e69",
+    "title": "박지성, 맨체스터 유나이티드 입단",
+    "year": 2005,
+    "category": "sports",
+    "tags": [
+      "sports"
+    ],
+    "tmi": "한국인 최초로 잉글랜드 프리미어리그(EPL) 명문 맨유에 입단해 '산소탱크'라는 별명으로 챔피언스리그를 제패했습니다.",
+    "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Park_Ji-sung_2011.jpg/500px-Park_Ji-sung_2011.jpg",
+    "imageCredit": "Steindy / CC BY-SA 3.0"
+  },
+  {
+    "id": "e70",
+    "title": "손흥민, 아시아인 최초 프리미어리그(EPL) 득점왕 등극",
+    "year": 2022,
+    "category": "sports",
+    "tags": [
+      "sports"
+    ],
+    "tmi": "페널티킥 없이 순수 필드골 23골로 골든부트를 수상하며 아시아 축구 역사를 새로 썼습니다.",
+    "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Son_Heung-min_2022.jpg/500px-Son_Heung-min_2022.jpg",
+    "imageCredit": "Ailura / CC BY-SA 3.0 AT"
+  },
+  {
+    "id": "e71",
+    "title": "마이크로소프트, '윈도우 95(Windows 95)' 출시",
+    "year": 1995,
+    "category": "tech",
+    "tags": [
+      "tech",
+      "business"
+    ],
+    "tmi": "시작 메뉴와 작업 표시줄을 최초로 도입하며 개인용 컴퓨터(PC)의 대중화를 이끈 결정적 OS입니다.",
+    "imageUrl": null,
+    "imageCredit": null
+  },
+  {
+    "id": "e72",
+    "title": "마크 저커버그, '페이스북(Facebook)' 서비스 런칭",
+    "year": 2004,
+    "category": "tech",
+    "tags": [
+      "tech",
+      "business"
+    ],
+    "tmi": "하버드 기숙사 방에서 대학생 네트워크로 시작해 전 세계 30억 명이 사용하는 SNS 거인이 되었습니다.",
+    "imageUrl": null,
+    "imageCredit": null
   }
 ]

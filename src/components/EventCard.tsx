@@ -1,18 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import { HistoryEvent, PlacedEvent, Category } from '@/types/game';
+import { HistoryEvent, PlacedEvent } from '@/types/game';
 import { formatYear } from '@/lib/game-logic';
 import {
   Landmark,
-  Swords,
   Globe2,
-  FlaskConical,
-  Cpu,
+  Swords,
   Clapperboard,
+  Music,
   Gamepad2,
-  Trophy,
+  Cpu,
+  FlaskConical,
   Building2,
+  Trophy,
   Palette,
   Crown,
   Info,
@@ -22,19 +23,25 @@ import {
 } from 'lucide-react';
 
 const CATEGORY_STYLES: Record<
-  Category,
+  string,
   { name: string; badge: string; iconBg: string; border: string; Icon: React.ComponentType<{ className?: string }> }
 > = {
-  history: { name: '역사·전쟁', badge: 'bg-amber-100 text-amber-800 border-amber-200', iconBg: 'bg-amber-50 text-amber-600', border: 'border-amber-400', Icon: Landmark },
-  entertainment: { name: '엔터', badge: 'bg-pink-100 text-pink-800 border-pink-200', iconBg: 'bg-pink-50 text-pink-600', border: 'border-pink-400', Icon: Clapperboard },
-  games: { name: '게임', badge: 'bg-violet-100 text-violet-800 border-violet-200', iconBg: 'bg-violet-50 text-violet-600', border: 'border-violet-400', Icon: Gamepad2 },
-  tech: { name: '기술·IT', badge: 'bg-cyan-100 text-cyan-800 border-cyan-200', iconBg: 'bg-cyan-50 text-cyan-600', border: 'border-cyan-400', Icon: Cpu },
-  science: { name: '과학·발명', badge: 'bg-emerald-100 text-emerald-800 border-emerald-200', iconBg: 'bg-emerald-50 text-emerald-600', border: 'border-emerald-400', Icon: FlaskConical },
-  business: { name: '비즈니스', badge: 'bg-blue-100 text-blue-800 border-blue-200', iconBg: 'bg-blue-50 text-blue-600', border: 'border-blue-400', Icon: Building2 },
-  sports: { name: '스포츠', badge: 'bg-orange-100 text-orange-800 border-orange-200', iconBg: 'bg-orange-50 text-orange-600', border: 'border-orange-400', Icon: Trophy },
-  art: { name: '예술·건축', badge: 'bg-rose-100 text-rose-800 border-rose-200', iconBg: 'bg-rose-50 text-rose-600', border: 'border-rose-400', Icon: Palette },
-  leaders: { name: '인물·지도자', badge: 'bg-indigo-100 text-indigo-800 border-indigo-200', iconBg: 'bg-indigo-50 text-indigo-600', border: 'border-indigo-400', Icon: Crown },
   korea: { name: '한국사', badge: 'bg-blue-100 text-blue-800 border-blue-200', iconBg: 'bg-blue-50 text-blue-600', border: 'border-blue-400', Icon: Landmark },
+  world_history: { name: '세계사', badge: 'bg-purple-100 text-purple-800 border-purple-200', iconBg: 'bg-purple-50 text-purple-600', border: 'border-purple-400', Icon: Globe2 },
+  wars: { name: '전쟁사', badge: 'bg-rose-100 text-rose-800 border-rose-200', iconBg: 'bg-rose-50 text-rose-600', border: 'border-rose-400', Icon: Swords },
+  films: { name: '영화', badge: 'bg-pink-100 text-pink-800 border-pink-200', iconBg: 'bg-pink-50 text-pink-600', border: 'border-pink-400', Icon: Clapperboard },
+  music: { name: '음악', badge: 'bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200', iconBg: 'bg-fuchsia-50 text-fuchsia-600', border: 'border-fuchsia-400', Icon: Music },
+  games: { name: '비디오 게임', badge: 'bg-indigo-100 text-indigo-800 border-indigo-200', iconBg: 'bg-indigo-50 text-indigo-600', border: 'border-indigo-400', Icon: Gamepad2 },
+  tech: { name: 'IT·기술', badge: 'bg-cyan-100 text-cyan-800 border-cyan-200', iconBg: 'bg-cyan-50 text-cyan-600', border: 'border-cyan-400', Icon: Cpu },
+  science: { name: '과학·발명', badge: 'bg-emerald-100 text-emerald-800 border-emerald-200', iconBg: 'bg-emerald-50 text-emerald-600', border: 'border-emerald-400', Icon: FlaskConical },
+  business: { name: '기업·브랜드', badge: 'bg-sky-100 text-sky-800 border-sky-200', iconBg: 'bg-sky-50 text-sky-600', border: 'border-sky-400', Icon: Building2 },
+  sports: { name: '스포츠', badge: 'bg-amber-100 text-amber-800 border-amber-200', iconBg: 'bg-amber-50 text-amber-600', border: 'border-amber-400', Icon: Trophy },
+  art: { name: '예술·건축', badge: 'bg-teal-100 text-teal-800 border-teal-200', iconBg: 'bg-teal-50 text-teal-600', border: 'border-teal-400', Icon: Palette },
+  leaders: { name: '인물·지도자', badge: 'bg-violet-100 text-violet-800 border-violet-200', iconBg: 'bg-violet-50 text-violet-600', border: 'border-violet-400', Icon: Crown },
+
+  // legacy fallbacks
+  history: { name: '역사', badge: 'bg-amber-100 text-amber-800 border-amber-200', iconBg: 'bg-amber-50 text-amber-600', border: 'border-amber-400', Icon: Landmark },
+  entertainment: { name: '대중문화', badge: 'bg-pink-100 text-pink-800 border-pink-200', iconBg: 'bg-pink-50 text-pink-600', border: 'border-pink-400', Icon: Clapperboard },
   east_asia: { name: '동아시아사', badge: 'bg-rose-100 text-rose-800 border-rose-200', iconBg: 'bg-rose-50 text-rose-600', border: 'border-rose-400', Icon: Swords },
   world: { name: '세계사', badge: 'bg-purple-100 text-purple-800 border-purple-200', iconBg: 'bg-purple-50 text-purple-600', border: 'border-purple-400', Icon: Globe2 },
   it: { name: 'IT·기술', badge: 'bg-cyan-100 text-cyan-800 border-cyan-200', iconBg: 'bg-cyan-50 text-cyan-600', border: 'border-cyan-400', Icon: Cpu },
@@ -102,7 +109,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           <div>
             {/* 카테고리 뱃지 & 연도 */}
             <div className="flex items-center justify-between mb-2">
-              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${config.badge}`}>
+              <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${config.badge}`}>
                 {config.name}
               </span>
               {isPlaced ? (
@@ -113,7 +120,7 @@ export const EventCard: React.FC<EventCardProps> = ({
                 <button
                   type="button"
                   onClick={handleFlipToggle}
-                  className="flex items-center gap-1 text-[11px] font-bold text-amber-600 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-0.5 rounded-full transition-colors cursor-pointer"
+                  className="flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-full transition-colors cursor-pointer"
                   title="카드를 뒤집어 힌트 보기"
                 >
                   <Lightbulb className="w-3 h-3 text-amber-500 fill-amber-400" />
@@ -201,7 +208,7 @@ export const EventCard: React.FC<EventCardProps> = ({
               </span>
               <span className="text-xs font-bold text-amber-400 flex items-center gap-1">
                 <Lightbulb className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                역사 힌트
+                힌트 & 단서
               </span>
             </div>
 
