@@ -13,7 +13,8 @@ import { EventCard } from '@/components/EventCard';
 import { TimelineBoard } from '@/components/TimelineBoard';
 import { ResultModal } from '@/components/ResultModal';
 import { CategoryBrowserModal } from '@/components/CategoryBrowserModal';
-import { Heart, Flame, Calendar, Layers, Sparkles, ChevronDown, Trophy, Home } from 'lucide-react';
+import { playCorrectSound, playWrongSound, playGameOverSound, getSoundMuted, setSoundMuted } from '@/lib/sound';
+import { Heart, Flame, Calendar, Layers, Sparkles, ChevronDown, Trophy, Home, Volume2, VolumeX } from 'lucide-react';
 
 const THEME_INFO: Record<ThemeCategory, { name: string; icon: string }> = {
   all: { name: '만물의 타임라인', icon: '🌐' },
@@ -30,6 +31,7 @@ export default function TrivioPage() {
   const [mode, setMode] = useState<GameMode>('endless');
   const [theme, setTheme] = useState<ThemeCategory>('all');
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
 
   const [lives, setLives] = useState<number>(3);
   const [score, setScore] = useState<number>(0);
@@ -48,8 +50,15 @@ export default function TrivioPage() {
     if (typeof window !== 'undefined') {
       const savedHigh = localStorage.getItem('trivio_high_score') || localStorage.getItem('wt_high_score');
       if (savedHigh) setHighScore(parseInt(savedHigh, 10));
+      setIsMuted(getSoundMuted());
     }
   }, []);
+
+  const toggleMute = () => {
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+    setSoundMuted(nextMuted);
+  };
 
   const launchGame = useCallback(
     (targetMode: GameMode, targetTheme: ThemeCategory) => {
@@ -102,6 +111,7 @@ export default function TrivioPage() {
     const newPlaced = [...placedCards];
 
     if (isCorrect) {
+      playCorrectSound(streak);
       newPlaced.splice(targetIndex, 0, { ...currentCard, status: 'correct' });
       const nextScore = score + 1;
       const nextStreak = streak + 1;
@@ -118,6 +128,7 @@ export default function TrivioPage() {
       setHistoryResults((prev) => [...prev, true]);
       setFeedbackMsg({ text: '정답입니다! 👏', type: 'correct' });
     } else {
+      playWrongSound();
       const correctIndex = placedCards.findIndex((c) => c.year > currentCard.year);
       const insertAt = correctIndex === -1 ? placedCards.length : correctIndex;
       newPlaced.splice(insertAt, 0, { ...currentCard, status: 'wrong' });
@@ -132,6 +143,7 @@ export default function TrivioPage() {
       });
 
       if (nextLives <= 0) {
+        playGameOverSound();
         setIsGameOver(true);
         setPlacedCards(newPlaced);
         return;
@@ -141,6 +153,7 @@ export default function TrivioPage() {
     setPlacedCards(newPlaced);
 
     if (mode === 'daily' && historyResults.length + 1 >= 10) {
+      playGameOverSound();
       setIsGameOver(true);
       return;
     }
@@ -151,6 +164,7 @@ export default function TrivioPage() {
       setCurrentCard(picked);
       setDeck(nextDeck);
     } else {
+      playGameOverSound();
       setIsGameOver(true);
     }
   };
@@ -163,6 +177,8 @@ export default function TrivioPage() {
       <>
         <HomeScreen
           highScore={highScore}
+          isMuted={isMuted}
+          onToggleMute={toggleMute}
           onStartDaily={() => launchGame('daily', 'all')}
           onOpenCategories={() => setIsCategoryModalOpen(true)}
           onStartFreePlay={() => launchGame('endless', 'all')}
@@ -228,6 +244,17 @@ export default function TrivioPage() {
             <span className="font-extrabold text-white text-base">
               {score} <span className="text-xs text-slate-400 font-normal">점</span>
             </span>
+
+            {/* 사운드 음소거 토글 */}
+            <button
+              type="button"
+              onClick={toggleMute}
+              className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              title={isMuted ? '소리 켜기' : '소리 끄기'}
+              aria-label={isMuted ? '소리 켜기' : '소리 끄기'}
+            >
+              {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+            </button>
           </div>
         </div>
       </header>

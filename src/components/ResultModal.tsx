@@ -22,7 +22,7 @@ export const ResultModal: React.FC<ResultModalProps> = ({
   onRestart,
   onGoHome,
 }) => {
-  const [copied, setCopied] = useState(false);
+  const [shareStatus, setShareStatus] = useState<string | null>(null);
   const { title, emoji } = getHistoryTitle(score);
 
   const emojiGrid = historyResults.map((r) => (r ? '🟩' : '🟥')).join('');
@@ -30,16 +30,32 @@ export const ResultModal: React.FC<ResultModalProps> = ({
   const handleShare = async () => {
     const today = new Date().toISOString().split('T')[0];
     const modeName = mode === 'daily' ? `데일리 챌린지 (${today})` : '트리비오 무한 모드';
-    const text = `[트리비오(Trivio) 타임라인 챌린지]\n모드: ${modeName}\n점수: ${score}점 (${title} ${emoji})\n최대 연승: ${maxStreak}연승\n결과: ${emojiGrid}\n\n세상의 모든 순간을 시간순으로 맞춰보세요! 👇\n${typeof window !== 'undefined' ? window.location.origin : ''}`;
+    const originUrl = typeof window !== 'undefined' ? window.location.origin : 'https://wikitrivia-ko.vercel.app';
+    const text = `[트리비오(Trivio) 타임라인 챌린지]\n모드: ${modeName}\n점수: ${score}점 (${title} ${emoji})\n최대 연승: ${maxStreak}연승\n결과: ${emojiGrid}\n\n세상의 모든 순간을 시간순으로 맞춰보세요! 👇\n${originUrl}`;
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: '트리비오 (Trivio) 타임라인 챌린지',
+          text,
+          url: originUrl,
+        });
+        setShareStatus('공유 완료! 👏');
+        setTimeout(() => setShareStatus(null), 2500);
+        return;
+      } catch (err) {
+        if ((err as Error).name === 'AbortError') return;
+      }
+    }
 
     try {
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
+        setShareStatus('결과 복사 완료! 붙여넣기 해보세요');
+        setTimeout(() => setShareStatus(null), 2500);
       }
     } catch {
-      alert('클립보드 복사에 실패했습니다.');
+      alert('결과 공유에 실패했습니다.');
     }
   };
 
@@ -77,8 +93,8 @@ export const ResultModal: React.FC<ResultModalProps> = ({
             onClick={handleShare}
             className="w-full py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-200 transition-all cursor-pointer"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-300" /> : <Share2 className="w-4 h-4" />}
-            <span>{copied ? '결과 복사 완료! 붙여넣기 해보세요' : '결과 공유하기 (클립보드 복사)'}</span>
+            {shareStatus ? <Check className="w-4 h-4 text-emerald-300" /> : <Share2 className="w-4 h-4" />}
+            <span>{shareStatus || '결과 공유하기 (카톡 / 클립보드)'}</span>
           </button>
 
           <button

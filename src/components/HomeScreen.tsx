@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Calendar, Play, Trophy, HelpCircle, Layers } from 'lucide-react';
+import { Sparkles, Calendar, Play, Trophy, HelpCircle, Layers, Volume2, VolumeX } from 'lucide-react';
 
 interface HomeScreenProps {
   onStartDaily: () => void;
   onOpenCategories: () => void;
   onStartFreePlay: () => void;
   highScore: number;
+  isMuted?: boolean;
+  onToggleMute?: () => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
@@ -15,6 +17,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onOpenCategories,
   onStartFreePlay,
   highScore,
+  isMuted = false,
+  onToggleMute,
 }) => {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between p-6 sm:p-10 select-none relative overflow-hidden">
@@ -30,13 +34,27 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <span className="text-xs font-black tracking-widest text-slate-400">TRIVIO</span>
         </div>
 
-        {highScore > 0 && (
-          <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/80 text-xs">
-            <Trophy className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-[11px] text-slate-400">최고 기록</span>
-            <strong className="text-amber-300 font-black">{highScore}점</strong>
-          </div>
-        )}
+        <div className="flex items-center gap-2.5">
+          {highScore > 0 && (
+            <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/80 text-xs">
+              <Trophy className="w-3.5 h-3.5 text-amber-400" />
+              <span className="text-[11px] text-slate-400">최고 기록</span>
+              <strong className="text-amber-300 font-black">{highScore}점</strong>
+            </div>
+          )}
+
+          {onToggleMute && (
+            <button
+              type="button"
+              onClick={onToggleMute}
+              className="p-1.5 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700/80 transition-colors cursor-pointer"
+              title={isMuted ? '소리 켜기' : '소리 끄기'}
+              aria-label={isMuted ? '소리 켜기' : '소리 끄기'}
+            >
+              {isMuted ? <VolumeX className="w-3.5 h-3.5 text-rose-400" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+            </button>
+          )}
+        </div>
       </header>
 
       {/* 2. 중앙 히어로 섹션 (레퍼런스 이미지 디자인 완벽 재현) */}

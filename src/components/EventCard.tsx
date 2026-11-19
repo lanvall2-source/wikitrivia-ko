@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { HistoryEvent, PlacedEvent } from '@/types/game';
 import { formatYear } from '@/lib/game-logic';
+import { playCardFlipSound } from '@/lib/sound';
 import {
   Landmark,
   Globe2,
@@ -77,6 +78,7 @@ export const EventCard: React.FC<EventCardProps> = ({
 
   const handleFlipToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
+    playCardFlipSound();
     setIsFlipped(!isFlipped);
   };
 
