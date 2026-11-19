@@ -13,8 +13,6 @@ import { EventCard } from '@/components/EventCard';
 import { TimelineBoard } from '@/components/TimelineBoard';
 import { ResultModal } from '@/components/ResultModal';
 import { CategoryBrowserModal } from '@/components/CategoryBrowserModal';
-import { AdInterstitialModal } from '@/components/AdInterstitialModal';
-import { AdBanner } from '@/components/AdBanner';
 import { Heart, Flame, Calendar, Layers, Sparkles, ChevronDown, Trophy, Home } from 'lucide-react';
 
 const THEME_INFO: Record<ThemeCategory, { name: string; icon: string }> = {
@@ -32,8 +30,6 @@ export default function TrivioPage() {
   const [mode, setMode] = useState<GameMode>('endless');
   const [theme, setTheme] = useState<ThemeCategory>('all');
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
-  const [isAdOpen, setIsAdOpen] = useState<boolean>(false);
-  const [pendingGame, setPendingGame] = useState<{ mode: GameMode; theme: ThemeCategory } | null>(null);
 
   const [lives, setLives] = useState<number>(3);
   const [score, setScore] = useState<number>(0);
@@ -90,22 +86,6 @@ export default function TrivioPage() {
     },
     []
   );
-
-  // 게임 시작 트리거: 광고 인터스티셜 팝업 노출 후 게임 진입
-  const triggerStartWithAd = (targetMode: GameMode, targetTheme: ThemeCategory) => {
-    setPendingGame({ mode: targetMode, theme: targetTheme });
-    setIsAdOpen(true);
-  };
-
-  const handleAdFinishedAndStart = () => {
-    setIsAdOpen(false);
-    if (pendingGame) {
-      launchGame(pendingGame.mode, pendingGame.theme);
-      setPendingGame(null);
-    } else {
-      launchGame(mode, theme);
-    }
-  };
 
   const handlePlaceCard = (targetIndex: number) => {
     if (!currentCard || isGameOver) return;
@@ -183,9 +163,9 @@ export default function TrivioPage() {
       <>
         <HomeScreen
           highScore={highScore}
-          onStartDaily={() => triggerStartWithAd('daily', 'all')}
+          onStartDaily={() => launchGame('daily', 'all')}
           onOpenCategories={() => setIsCategoryModalOpen(true)}
-          onStartFreePlay={() => triggerStartWithAd('endless', 'all')}
+          onStartFreePlay={() => launchGame('endless', 'all')}
         />
 
         {/* 카테고리 선택 모달 */}
@@ -195,19 +175,8 @@ export default function TrivioPage() {
           currentTheme={theme}
           onSelectTheme={(selectedTheme) => {
             setIsCategoryModalOpen(false);
-            triggerStartWithAd('endless', selectedTheme);
+            launchGame('endless', selectedTheme);
           }}
-        />
-
-        {/* 게임 시작 전 광고 인터스티셜 */}
-        <AdInterstitialModal
-          isOpen={isAdOpen}
-          onCloseAndStart={handleAdFinishedAndStart}
-          gameTitle={
-            pendingGame?.mode === 'daily'
-              ? '데일리 챌린지 퀴즈'
-              : `${THEME_INFO[pendingGame?.theme || 'all'].name} 퀴즈`
-          }
         />
       </>
     );
@@ -271,7 +240,7 @@ export default function TrivioPage() {
           <div className="flex items-center bg-slate-950/70 p-1 rounded-xl border border-slate-800 text-xs shadow-inner shrink-0">
             <button
               type="button"
-              onClick={() => triggerStartWithAd('endless', theme)}
+              onClick={() => launchGame('endless', theme)}
               className={`px-2.5 sm:px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer whitespace-nowrap ${
                 mode === 'endless'
                   ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
@@ -282,7 +251,7 @@ export default function TrivioPage() {
             </button>
             <button
               type="button"
-              onClick={() => triggerStartWithAd('daily', 'all')}
+              onClick={() => launchGame('daily', 'all')}
               className={`px-2.5 sm:px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap ${
                 mode === 'daily'
                   ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
@@ -377,19 +346,8 @@ export default function TrivioPage() {
         currentTheme={theme}
         onSelectTheme={(selectedTheme) => {
           setIsCategoryModalOpen(false);
-          triggerStartWithAd('endless', selectedTheme);
+          launchGame('endless', selectedTheme);
         }}
-      />
-
-      {/* 게임 시작 전 광고 인터스티셜 */}
-      <AdInterstitialModal
-        isOpen={isAdOpen}
-        onCloseAndStart={handleAdFinishedAndStart}
-        gameTitle={
-          pendingGame?.mode === 'daily'
-            ? '데일리 챌린지 퀴즈'
-            : `${THEME_INFO[pendingGame?.theme || 'all'].name} 퀴즈`
-        }
       />
 
       {/* 결과 모달 */}
@@ -399,7 +357,7 @@ export default function TrivioPage() {
           maxStreak={maxStreak}
           historyResults={historyResults}
           mode={mode}
-          onRestart={() => triggerStartWithAd(mode, theme)}
+          onRestart={() => launchGame(mode, theme)}
           onGoHome={() => setView('home')}
         />
       )}

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { getHistoryTitle } from '@/lib/game-logic';
 import { GameMode } from '@/types/game';
 import { Share2, RotateCcw, Check, Trophy, Sparkles, Home } from 'lucide-react';
-import { AdBanner } from './AdBanner';
 
 interface ResultModalProps {
   score: number;
@@ -67,13 +66,8 @@ export const ResultModal: React.FC<ResultModalProps> = ({
         </div>
 
         {/* 이모지 그리드 */}
-        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/70 mb-4 text-sm tracking-widest break-all font-mono">
+        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/70 mb-5 text-sm tracking-widest break-all font-mono">
           {emojiGrid || '🏁'}
-        </div>
-
-        {/* 광고 배너 슬롯 */}
-        <div className="my-3">
-          <AdBanner format="banner" className="h-[52px] bg-slate-100 border-slate-200 text-slate-500" />
         </div>
 
         {/* 액션 버튼 */}
