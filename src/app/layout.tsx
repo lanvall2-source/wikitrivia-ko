@@ -3,17 +3,17 @@ import './globals.css';
 
 export const metadata: Metadata = {
   referrer: 'no-referrer',
-  title: '위키트리비아 코리아 (WikiTrivia Korea) | 역사 타임라인 퀴즈 게임',
-  description: '한국사, 중국사, 세계사, 과학, IT 사건을 시간순으로 배치하는 두뇌 자극 타임라인 PWA 웹게임',
+  title: '트리비오 (Trivio) | 시간순 타임라인 퀴즈 게임',
+  description: '역사, 영화, 음악, 비디오 게임, IT 기술, 스포츠, 비즈니스! 세상의 모든 순간을 시간순으로 맞히는 타임라인 퀴즈 PWA 웹게임',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: '위키트리비아',
+    title: '트리비오',
   },
   openGraph: {
-    title: '위키트리비아 코리아 | 역사 타임라인 퀴즈 게임',
-    description: '당신의 역사 감각을 시험해보세요! 3개의 목숨으로 어디까지 맞힐 수 있을까요?',
+    title: '트리비오 (Trivio) | 시간순 타임라인 퀴즈 게임',
+    description: '역사, 영화, 음악, 게임, 스포츠! 3개의 목숨으로 시간의 타임라인을 완성해보세요.',
     type: 'website',
     locale: 'ko_KR',
   },

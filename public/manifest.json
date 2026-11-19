@@ -1,7 +1,7 @@
 {
-  "name": "위키트리비아 코리아 (WikiTrivia Korea)",
-  "short_name": "위키트리비아",
-  "description": "한국사, 세계사, 과학/IT 사건을 시간순으로 맞히는 타임라인 퀴즈 게임",
+  "name": "트리비오 (Trivio) - 타임라인 퀴즈 게임",
+  "short_name": "트리비오",
+  "description": "역사, 영화, 음악, 비디오 게임, IT 기술, 스포츠를 시간순으로 맞히는 타임라인 퀴즈 게임",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",

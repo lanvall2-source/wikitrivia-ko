@@ -179,6 +179,7 @@ async function run() {
       title: item.title,
       year: item.year,
       category: item.category,
+      tags: item.tags || [],
       tmi: item.tmi,
       imageUrl: finalImageUrl,
       imageCredit: finalImageCredit,

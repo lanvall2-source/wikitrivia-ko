@@ -11,11 +11,30 @@ import {
 import { EventCard } from '@/components/EventCard';
 import { TimelineBoard } from '@/components/TimelineBoard';
 import { ResultModal } from '@/components/ResultModal';
-import { Heart, Flame, Calendar, Layers, Sparkles, Filter } from 'lucide-react';
+import { CategoryBrowserModal } from '@/components/CategoryBrowserModal';
+import { Heart, Flame, Calendar, Layers, Sparkles, LayoutGrid, ChevronDown } from 'lucide-react';
 
-export default function WikiTriviaPage() {
+const THEME_NAMES: Record<ThemeCategory, string> = {
+  all: '전체 무한',
+  history: '역사 & 세계사',
+  entertainment: '엔터테인먼트',
+  games: '비디오 게임',
+  tech: '기술 & IT',
+  science: '과학 & 발명',
+  business: '기업 & 브랜드',
+  sports: '스포츠',
+  art: '예술 & 랜드마크',
+  leaders: '지도자 & 인물',
+  films: '영화',
+  music: '음악 & K-POP',
+  wars: '전쟁 & 전투사',
+  korean_leaders: '한국사 & 인물',
+};
+
+export default function TrivioPage() {
   const [mode, setMode] = useState<GameMode>('endless');
   const [theme, setTheme] = useState<ThemeCategory>('all');
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
 
   const [lives, setLives] = useState<number>(3);
   const [score, setScore] = useState<number>(0);
@@ -32,7 +51,7 @@ export default function WikiTriviaPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedHigh = localStorage.getItem('wt_high_score');
+      const savedHigh = localStorage.getItem('trivio_high_score') || localStorage.getItem('wt_high_score');
       if (savedHigh) setHighScore(parseInt(savedHigh, 10));
     }
   }, []);
@@ -101,7 +120,7 @@ export default function WikiTriviaPage() {
       if (nextScore > highScore) {
         setHighScore(nextScore);
         if (typeof window !== 'undefined') {
-          localStorage.setItem('wt_high_score', nextScore.toString());
+          localStorage.setItem('trivio_high_score', nextScore.toString());
         }
       }
       setHistoryResults((prev) => [...prev, true]);
@@ -148,13 +167,13 @@ export default function WikiTriviaPage() {
     <main className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between selection:bg-amber-500 selection:text-white">
       {/* 1. 상단 글로벌 헤더 & 상태바 */}
       <header className="px-4 py-3 sm:px-8 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center font-black text-white text-lg shadow-md">
-            W
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-amber-500 flex items-center justify-center font-black text-white text-lg shadow-md">
+            T
           </div>
           <div>
             <h1 className="text-base font-black tracking-tight text-white flex items-center gap-1.5">
-              위키트리비아 <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-sm border border-amber-500/30">KOREA</span>
+              트리비오 <span className="text-[10px] bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-black px-1.5 py-0.5 rounded-sm">TRIVIO</span>
             </h1>
           </div>
         </div>
@@ -184,7 +203,7 @@ export default function WikiTriviaPage() {
         </div>
       </header>
 
-      {/* 2. 게임 모드 & 테마 셀렉터 */}
+      {/* 2. 게임 모드 & 카테고리 브라우저 셀렉터 */}
       <div className="max-w-3xl mx-auto w-full px-4 pt-3 flex flex-wrap items-center justify-between gap-2 text-xs">
         <div className="flex flex-wrap items-center gap-1.5 bg-slate-800/80 p-1 rounded-xl border border-slate-700">
           <button
@@ -196,7 +215,7 @@ export default function WikiTriviaPage() {
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            전체 역사 (무한)
+            전체 무한
           </button>
           <button
             type="button"
@@ -212,15 +231,16 @@ export default function WikiTriviaPage() {
           </button>
           <button
             type="button"
-            onClick={() => startNewGame('theme', 'korea')}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${
-              mode === 'theme' && theme === 'korea'
-                ? 'bg-amber-500 text-white shadow-xs'
-                : 'text-slate-400 hover:text-white'
+            onClick={() => setIsCategoryModalOpen(true)}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1 cursor-pointer ${
+              theme !== 'all'
+                ? 'bg-indigo-600 text-white shadow-xs'
+                : 'bg-slate-700/60 text-slate-300 hover:text-white'
             }`}
           >
-            <Filter className="w-3 h-3 inline mr-1" />
-            한국사 테마
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>{theme !== 'all' ? THEME_NAMES[theme] : '카테고리 탐색'}</span>
+            <ChevronDown className="w-3 h-3 ml-0.5 opacity-70" />
           </button>
         </div>
 
@@ -273,7 +293,17 @@ export default function WikiTriviaPage() {
         />
       </div>
 
-      {/* 5. 결과 모달 */}
+      {/* 5. 카테고리 브라우저 모달 (FREE PLAY / BROWSE & FEATURED) */}
+      <CategoryBrowserModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        currentTheme={theme}
+        onSelectTheme={(selectedTheme) => {
+          startNewGame(selectedTheme === 'all' ? 'endless' : 'theme', selectedTheme);
+        }}
+      />
+
+      {/* 6. 결과 모달 */}
       {isGameOver && (
         <ResultModal
           score={score}

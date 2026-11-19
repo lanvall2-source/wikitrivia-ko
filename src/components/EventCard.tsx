@@ -3,13 +3,40 @@
 import React, { useState } from 'react';
 import { HistoryEvent, PlacedEvent, Category } from '@/types/game';
 import { formatYear } from '@/lib/game-logic';
-import { Landmark, Swords, Globe2, FlaskConical, Cpu, Info, RotateCw, Lightbulb, ArrowLeft } from 'lucide-react';
+import {
+  Landmark,
+  Swords,
+  Globe2,
+  FlaskConical,
+  Cpu,
+  Clapperboard,
+  Gamepad2,
+  Trophy,
+  Building2,
+  Palette,
+  Crown,
+  Info,
+  RotateCw,
+  Lightbulb,
+  ArrowLeft,
+} from 'lucide-react';
 
-const CATEGORY_STYLES: Record<Category, { name: string; badge: string; iconBg: string; border: string; Icon: React.ComponentType<{ className?: string }> }> = {
+const CATEGORY_STYLES: Record<
+  Category,
+  { name: string; badge: string; iconBg: string; border: string; Icon: React.ComponentType<{ className?: string }> }
+> = {
+  history: { name: '역사·전쟁', badge: 'bg-amber-100 text-amber-800 border-amber-200', iconBg: 'bg-amber-50 text-amber-600', border: 'border-amber-400', Icon: Landmark },
+  entertainment: { name: '엔터', badge: 'bg-pink-100 text-pink-800 border-pink-200', iconBg: 'bg-pink-50 text-pink-600', border: 'border-pink-400', Icon: Clapperboard },
+  games: { name: '게임', badge: 'bg-violet-100 text-violet-800 border-violet-200', iconBg: 'bg-violet-50 text-violet-600', border: 'border-violet-400', Icon: Gamepad2 },
+  tech: { name: '기술·IT', badge: 'bg-cyan-100 text-cyan-800 border-cyan-200', iconBg: 'bg-cyan-50 text-cyan-600', border: 'border-cyan-400', Icon: Cpu },
+  science: { name: '과학·발명', badge: 'bg-emerald-100 text-emerald-800 border-emerald-200', iconBg: 'bg-emerald-50 text-emerald-600', border: 'border-emerald-400', Icon: FlaskConical },
+  business: { name: '비즈니스', badge: 'bg-blue-100 text-blue-800 border-blue-200', iconBg: 'bg-blue-50 text-blue-600', border: 'border-blue-400', Icon: Building2 },
+  sports: { name: '스포츠', badge: 'bg-orange-100 text-orange-800 border-orange-200', iconBg: 'bg-orange-50 text-orange-600', border: 'border-orange-400', Icon: Trophy },
+  art: { name: '예술·건축', badge: 'bg-rose-100 text-rose-800 border-rose-200', iconBg: 'bg-rose-50 text-rose-600', border: 'border-rose-400', Icon: Palette },
+  leaders: { name: '인물·지도자', badge: 'bg-indigo-100 text-indigo-800 border-indigo-200', iconBg: 'bg-indigo-50 text-indigo-600', border: 'border-indigo-400', Icon: Crown },
   korea: { name: '한국사', badge: 'bg-blue-100 text-blue-800 border-blue-200', iconBg: 'bg-blue-50 text-blue-600', border: 'border-blue-400', Icon: Landmark },
   east_asia: { name: '동아시아사', badge: 'bg-rose-100 text-rose-800 border-rose-200', iconBg: 'bg-rose-50 text-rose-600', border: 'border-rose-400', Icon: Swords },
   world: { name: '세계사', badge: 'bg-purple-100 text-purple-800 border-purple-200', iconBg: 'bg-purple-50 text-purple-600', border: 'border-purple-400', Icon: Globe2 },
-  science: { name: '발명·과학', badge: 'bg-emerald-100 text-emerald-800 border-emerald-200', iconBg: 'bg-emerald-50 text-emerald-600', border: 'border-emerald-400', Icon: FlaskConical },
   it: { name: 'IT·기술', badge: 'bg-cyan-100 text-cyan-800 border-cyan-200', iconBg: 'bg-cyan-50 text-cyan-600', border: 'border-cyan-400', Icon: Cpu },
 };
 

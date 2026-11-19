@@ -21,8 +21,8 @@ export const ResultModal: React.FC<ResultModalProps> = ({ score, maxStreak, hist
 
   const handleShare = async () => {
     const today = new Date().toISOString().split('T')[0];
-    const modeName = mode === 'daily' ? `데일리 챌린지 (${today})` : '전체 역사 모드';
-    const text = `[한글 WikiTrivia 타임라인 챌린지]\n모드: ${modeName}\n점수: ${score}점 (${title} ${emoji})\n최대 연승: ${maxStreak}연승\n결과: ${emojiGrid}\n\n당신의 역사 감각을 시험해보세요! 👇\n${typeof window !== 'undefined' ? window.location.origin : ''}`;
+    const modeName = mode === 'daily' ? `데일리 챌린지 (${today})` : '트리비오 무한 모드';
+    const text = `[트리비오(Trivio) 타임라인 챌린지]\n모드: ${modeName}\n점수: ${score}점 (${title} ${emoji})\n최대 연승: ${maxStreak}연승\n결과: ${emojiGrid}\n\n세상의 모든 순간을 시간순으로 맞춰보세요! 👇\n${typeof window !== 'undefined' ? window.location.origin : ''}`;
 
     try {
       if (navigator.clipboard) {

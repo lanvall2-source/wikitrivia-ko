@@ -21,9 +21,48 @@ export function shuffleDeck<T>(array: T[], rng = Math.random): T[] {
 }
 
 export function getFilteredPool(theme: ThemeCategory): HistoryEvent[] {
-  if (theme === 'korea') return HISTORY_EVENTS.filter((e) => e.category === 'korea');
-  if (theme === 'east_asia') return HISTORY_EVENTS.filter((e) => e.category === 'east_asia' || e.category === 'korea');
-  if (theme === 'science_it') return HISTORY_EVENTS.filter((e) => e.category === 'science' || e.category === 'it');
+  if (theme === 'all') return HISTORY_EVENTS;
+
+  if (theme === 'history') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'history' || e.tags?.includes('history'));
+  }
+  if (theme === 'entertainment') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'entertainment' || e.tags?.includes('entertainment'));
+  }
+  if (theme === 'games') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'games' || e.tags?.includes('games'));
+  }
+  if (theme === 'tech') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'tech' || e.tags?.includes('tech'));
+  }
+  if (theme === 'science') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'science' || e.tags?.includes('science'));
+  }
+  if (theme === 'business') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'business' || e.tags?.includes('business'));
+  }
+  if (theme === 'sports') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'sports' || e.tags?.includes('sports'));
+  }
+  if (theme === 'art') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'art' || e.tags?.includes('art'));
+  }
+  if (theme === 'leaders') {
+    return HISTORY_EVENTS.filter((e) => e.category === 'leaders' || e.tags?.includes('leaders'));
+  }
+  if (theme === 'films') {
+    return HISTORY_EVENTS.filter((e) => e.tags?.includes('films'));
+  }
+  if (theme === 'music') {
+    return HISTORY_EVENTS.filter((e) => e.tags?.includes('music'));
+  }
+  if (theme === 'wars') {
+    return HISTORY_EVENTS.filter((e) => e.tags?.includes('wars'));
+  }
+  if (theme === 'korean_leaders') {
+    return HISTORY_EVENTS.filter((e) => e.tags?.includes('korean_leaders'));
+  }
+
   return HISTORY_EVENTS;
 }
 
