@@ -179,18 +179,10 @@ export const EventCard: React.FC<EventCardProps> = ({
                 💡 {event.tmi}
               </div>
             ) : (
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-[11px] font-semibold text-amber-600">
-                  드래그하거나 위치를 탭하세요
+              <div className="text-center py-0.5">
+                <span className="text-[11px] font-semibold text-amber-600 tracking-tight">
+                  타임라인 슬롯(⬇)으로 이동하세요
                 </span>
-                <button
-                  type="button"
-                  onClick={handleFlipToggle}
-                  className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5 cursor-pointer"
-                >
-                  <span>힌트 카드</span>
-                  <RotateCw className="w-3 h-3" />
-                </button>
               </div>
             )}
           </div>
