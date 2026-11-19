@@ -1,0 +1,17 @@
+{
+  "name": "위키트리비아 코리아 (WikiTrivia Korea)",
+  "short_name": "위키트리비아",
+  "description": "한국사, 세계사, 과학/IT 사건을 시간순으로 맞히는 타임라인 퀴즈 게임",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
