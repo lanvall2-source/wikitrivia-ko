@@ -196,7 +196,7 @@ export default function WikiTriviaPage() {
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            종합 뇌정지
+            전체 역사 (무한)
           </button>
           <button
             type="button"
@@ -220,7 +220,7 @@ export default function WikiTriviaPage() {
             }`}
           >
             <Filter className="w-3 h-3 inline mr-1" />
-            한국사만
+            한국사 테마
           </button>
         </div>
 
@@ -245,11 +245,17 @@ export default function WikiTriviaPage() {
 
         <div className="text-xs text-slate-400 font-semibold mb-2 flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>아래 타임라인의 올바른 위치에 (+)를 눌러 배치하세요</span>
+          <span>카드를 드래그하거나 타임라인 슬롯(⬇)을 눌러 이동하세요 (💡 힌트 보기 지원)</span>
         </div>
 
         {currentCard ? (
-          <EventCard event={currentCard} isCurrent />
+          <EventCard
+            event={currentCard}
+            isCurrent
+            onDragStart={(e) => {
+              e.dataTransfer.setData('text/plain', currentCard.id);
+            }}
+          />
         ) : (
           <div className="w-[220px] h-[240px] rounded-2xl border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-500">
             <Layers className="w-8 h-8 mb-2" />
