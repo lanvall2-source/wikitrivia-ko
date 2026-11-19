@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+  referrer: 'no-referrer',
   title: '위키트리비아 코리아 (WikiTrivia Korea) | 역사 타임라인 퀴즈 게임',
   description: '한국사, 중국사, 세계사, 과학, IT 사건을 시간순으로 배치하는 두뇌 자극 타임라인 PWA 웹게임',
   manifest: '/manifest.json',
