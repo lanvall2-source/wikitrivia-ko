@@ -22,17 +22,11 @@ export function shuffleDeck<T>(array: T[], rng = Math.random): T[] {
 
 export function getFilteredPool(theme: ThemeCategory): HistoryEvent[] {
   if (theme === 'all') return HISTORY_EVENTS;
-
-  const filtered = HISTORY_EVENTS.filter((e) => {
-    if (e.category === theme) return true;
-    if (e.tags && e.tags.includes(theme)) return true;
-    return false;
-  });
-
+  const filtered = HISTORY_EVENTS.filter((e) => e.theme === theme);
   return filtered.length >= 2 ? filtered : HISTORY_EVENTS;
 }
 
-// 1~5턴은 기존 배치 카드들과 최소 100년 이상 격차 우선 선별
+// 1~5턴은 기존 배치 카드들과 최소 80년 이상 격차 우선 선별
 export function pickNextCardWithCurve(
   deck: HistoryEvent[],
   placedCards: PlacedEvent[],
@@ -40,9 +34,9 @@ export function pickNextCardWithCurve(
 ): { picked: HistoryEvent; nextDeck: HistoryEvent[] } {
   if (deck.length === 0) throw new Error('No more cards');
 
-  if (turnCount <= 5) {
+  if (turnCount <= 4) {
     const easyIndex = deck.findIndex((candidate) =>
-      placedCards.every((placed) => Math.abs(candidate.year - placed.year) >= 100)
+      placedCards.every((placed) => Math.abs(candidate.year - placed.year) >= 80)
     );
     if (easyIndex !== -1) {
       const picked = deck[easyIndex];

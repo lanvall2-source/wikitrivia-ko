@@ -18,19 +18,13 @@ import { AdBanner } from '@/components/AdBanner';
 import { Heart, Flame, Calendar, Layers, Sparkles, ChevronDown, Trophy, Home } from 'lucide-react';
 
 const THEME_INFO: Record<ThemeCategory, { name: string; icon: string }> = {
-  all: { name: '전체 믹스 (모든 분야)', icon: '🌐' },
-  korea: { name: '한국사', icon: '🇰🇷' },
-  world_history: { name: '세계사', icon: '🌍' },
-  films: { name: '영화', icon: '🎬' },
-  music: { name: '음악 & K-POP', icon: '🎵' },
-  games: { name: '비디오 게임', icon: '🎮' },
-  tech: { name: 'IT & 테크', icon: '💻' },
-  science: { name: '과학 & 발명', icon: '🚀' },
-  business: { name: '기업 & 브랜드', icon: '🏢' },
-  sports: { name: '스포츠', icon: '🏆' },
-  art: { name: '예술 & 랜드마크', icon: '🎨' },
-  leaders: { name: '인물 & 지도자', icon: '👑' },
-  wars: { name: '전쟁 & 전투사', icon: '⚔️' },
+  all: { name: '만물의 타임라인', icon: '🌐' },
+  korea: { name: '한반도 5천년 실록', icon: '🇰🇷' },
+  games: { name: '게이머즈 오디세이', icon: '🎮' },
+  popculture: { name: '팝 컬처 & 엔터', icon: '🎬' },
+  tech: { name: '실리콘밸리 & 테크', icon: '💻' },
+  world: { name: '세계사 & 전장', icon: '🌍' },
+  sports: { name: '불멸의 챔피언스', icon: '🏆' },
 };
 
 export default function TrivioPage() {
