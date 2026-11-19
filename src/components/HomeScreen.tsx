@@ -62,7 +62,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           Put the world&apos;s knowledge in chronological order.
         </p>
 
-        {/* 3. 모드 선택 버튼 2종 (DAILY & FREE PLAY) */}
+        {/* 3. 모드 선택 버튼 2종 (DAILY & SELECT) */}
         <div className="w-full max-w-xs mt-10 space-y-3">
           {/* DAILY BUTTON */}
           <button
@@ -74,14 +74,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <span>DAILY</span>
           </button>
 
-          {/* FREE PLAY BUTTON */}
+          {/* SELECT BUTTON */}
           <button
             type="button"
             onClick={onOpenCategories}
             className="w-full py-4 px-6 rounded-2xl border-2 border-slate-700 hover:border-slate-500 bg-slate-900/60 hover:bg-slate-800 active:scale-98 text-white font-black text-sm tracking-widest uppercase transition-all cursor-pointer flex items-center justify-center gap-2"
           >
-            <Play className="w-4 h-4 text-amber-400 fill-amber-400" />
-            <span>FREE PLAY</span>
+            <Layers className="w-4 h-4 text-amber-400" />
+            <span>SELECT</span>
           </button>
         </div>
 
