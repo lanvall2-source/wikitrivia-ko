@@ -8,11 +8,14 @@ import {
   getFilteredPool,
   pickNextCardWithCurve,
 } from '@/lib/game-logic';
+import { HomeScreen } from '@/components/HomeScreen';
 import { EventCard } from '@/components/EventCard';
 import { TimelineBoard } from '@/components/TimelineBoard';
 import { ResultModal } from '@/components/ResultModal';
 import { CategoryBrowserModal } from '@/components/CategoryBrowserModal';
-import { Heart, Flame, Calendar, Layers, Sparkles, ChevronDown, Trophy } from 'lucide-react';
+import { AdInterstitialModal } from '@/components/AdInterstitialModal';
+import { AdBanner } from '@/components/AdBanner';
+import { Heart, Flame, Calendar, Layers, Sparkles, ChevronDown, Trophy, Home } from 'lucide-react';
 
 const THEME_INFO: Record<ThemeCategory, { name: string; icon: string }> = {
   all: { name: '전체 믹스 (모든 분야)', icon: '🌐' },
@@ -31,9 +34,12 @@ const THEME_INFO: Record<ThemeCategory, { name: string; icon: string }> = {
 };
 
 export default function TrivioPage() {
+  const [view, setView] = useState<'home' | 'game'>('home');
   const [mode, setMode] = useState<GameMode>('endless');
   const [theme, setTheme] = useState<ThemeCategory>('all');
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
+  const [isAdOpen, setIsAdOpen] = useState<boolean>(false);
+  const [pendingGame, setPendingGame] = useState<{ mode: GameMode; theme: ThemeCategory } | null>(null);
 
   const [lives, setLives] = useState<number>(3);
   const [score, setScore] = useState<number>(0);
@@ -55,8 +61,8 @@ export default function TrivioPage() {
     }
   }, []);
 
-  const startNewGame = useCallback(
-    (targetMode: GameMode = mode, targetTheme: ThemeCategory = theme) => {
+  const launchGame = useCallback(
+    (targetMode: GameMode, targetTheme: ThemeCategory) => {
       const pool = getFilteredPool(targetTheme);
       let shuffled: HistoryEvent[];
 
@@ -86,13 +92,26 @@ export default function TrivioPage() {
       setHistoryResults([]);
       setIsGameOver(false);
       setFeedbackMsg(null);
+      setView('game');
     },
-    [mode, theme]
+    []
   );
 
-  useEffect(() => {
-    startNewGame('endless', 'all');
-  }, [startNewGame]);
+  // 게임 시작 트리거: 광고 인터스티셜 팝업 노출 후 게임 진입
+  const triggerStartWithAd = (targetMode: GameMode, targetTheme: ThemeCategory) => {
+    setPendingGame({ mode: targetMode, theme: targetTheme });
+    setIsAdOpen(true);
+  };
+
+  const handleAdFinishedAndStart = () => {
+    setIsAdOpen(false);
+    if (pendingGame) {
+      launchGame(pendingGame.mode, pendingGame.theme);
+      setPendingGame(null);
+    } else {
+      launchGame(mode, theme);
+    }
+  };
 
   const handlePlaceCard = (targetIndex: number) => {
     if (!currentCard || isGameOver) return;
@@ -164,17 +183,63 @@ export default function TrivioPage() {
 
   const currentThemeInfo = THEME_INFO[theme] || THEME_INFO.all;
 
+  // 1. 처음 화면 (Landing / Selection Screen)
+  if (view === 'home') {
+    return (
+      <>
+        <HomeScreen
+          highScore={highScore}
+          onStartDaily={() => triggerStartWithAd('daily', 'all')}
+          onOpenCategories={() => setIsCategoryModalOpen(true)}
+          onStartFreePlay={() => triggerStartWithAd('endless', 'all')}
+        />
+
+        {/* 카테고리 선택 모달 */}
+        <CategoryBrowserModal
+          isOpen={isCategoryModalOpen}
+          onClose={() => setIsCategoryModalOpen(false)}
+          currentTheme={theme}
+          onSelectTheme={(selectedTheme) => {
+            setIsCategoryModalOpen(false);
+            triggerStartWithAd('endless', selectedTheme);
+          }}
+        />
+
+        {/* 게임 시작 전 광고 인터스티셜 */}
+        <AdInterstitialModal
+          isOpen={isAdOpen}
+          onCloseAndStart={handleAdFinishedAndStart}
+          gameTitle={
+            pendingGame?.mode === 'daily'
+              ? '데일리 챌린지 퀴즈'
+              : `${THEME_INFO[pendingGame?.theme || 'all'].name} 퀴즈`
+          }
+        />
+      </>
+    );
+  }
+
+  // 2. 퀴즈 게임 화면 (Game Play View)
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between selection:bg-amber-500 selection:text-white">
       {/* 1. 상단 글로벌 헤더 & 상태바 */}
       <header className="px-4 py-3 sm:px-8 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-amber-500 flex items-center justify-center font-black text-white text-lg shadow-md">
-            T
-          </div>
-          <div>
-            <h1 className="text-base font-black tracking-tight text-white flex items-center gap-1.5">
-              트리비오 <span className="text-[10px] bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-black px-1.5 py-0.5 rounded-sm">TRIVIO</span>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setView('home')}
+            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            title="홈 화면으로 나가기"
+          >
+            <Home className="w-4 h-4" />
+          </button>
+
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-amber-500 flex items-center justify-center font-black text-white text-sm shadow-md">
+              T
+            </div>
+            <h1 className="text-sm sm:text-base font-black tracking-tight text-white flex items-center gap-1.5">
+              트리비오 <span className="text-[9px] bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-black px-1.5 py-0.5 rounded-sm">TRIVIO</span>
             </h1>
           </div>
         </div>
@@ -205,14 +270,14 @@ export default function TrivioPage() {
       </header>
 
       {/* 2. 상단 게임 모드 & 카테고리 컨트롤바 (모바일 반응형 최적화) */}
-      <div className="max-w-xl mx-auto w-full px-4 pt-3 space-y-2">
+      <div className="max-w-xl mx-auto w-full px-4 pt-2.5 space-y-2">
         {/* 모드 탭 (무한 모드 / 데일리 퀴즈) & 최고 기록 */}
         <div className="flex items-center justify-between gap-2">
           {/* 세그먼트 모드 탭 */}
           <div className="flex items-center bg-slate-950/70 p-1 rounded-xl border border-slate-800 text-xs shadow-inner">
             <button
               type="button"
-              onClick={() => startNewGame('endless', theme)}
+              onClick={() => triggerStartWithAd('endless', theme)}
               className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                 mode === 'endless'
                   ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
@@ -223,7 +288,7 @@ export default function TrivioPage() {
             </button>
             <button
               type="button"
-              onClick={() => startNewGame('daily', 'all')}
+              onClick={() => triggerStartWithAd('daily', 'all')}
               className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 mode === 'daily'
                   ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
@@ -268,10 +333,10 @@ export default function TrivioPage() {
       </div>
 
       {/* 3. 중앙 출제 카드 영역 */}
-      <div className="my-auto py-3 flex flex-col items-center">
+      <div className="my-auto py-2 flex flex-col items-center">
         {feedbackMsg && (
           <div
-            className={`text-xs font-bold px-3 py-1 rounded-full mb-3 animate-bounce ${
+            className={`text-xs font-bold px-3 py-1 rounded-full mb-2.5 animate-bounce ${
               feedbackMsg.type === 'correct'
                 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                 : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
@@ -311,24 +376,37 @@ export default function TrivioPage() {
         />
       </div>
 
-      {/* 5. 카테고리 브라우저 모달 */}
+      {/* 카테고리 브라우저 모달 */}
       <CategoryBrowserModal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
         currentTheme={theme}
         onSelectTheme={(selectedTheme) => {
-          startNewGame('endless', selectedTheme);
+          setIsCategoryModalOpen(false);
+          triggerStartWithAd('endless', selectedTheme);
         }}
       />
 
-      {/* 6. 결과 모달 */}
+      {/* 게임 시작 전 광고 인터스티셜 */}
+      <AdInterstitialModal
+        isOpen={isAdOpen}
+        onCloseAndStart={handleAdFinishedAndStart}
+        gameTitle={
+          pendingGame?.mode === 'daily'
+            ? '데일리 챌린지 퀴즈'
+            : `${THEME_INFO[pendingGame?.theme || 'all'].name} 퀴즈`
+        }
+      />
+
+      {/* 결과 모달 */}
       {isGameOver && (
         <ResultModal
           score={score}
           maxStreak={maxStreak}
           historyResults={historyResults}
           mode={mode}
-          onRestart={() => startNewGame(mode, theme)}
+          onRestart={() => triggerStartWithAd(mode, theme)}
+          onGoHome={() => setView('home')}
         />
       )}
     </main>

@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { getHistoryTitle } from '@/lib/game-logic';
 import { GameMode } from '@/types/game';
-import { Share2, RotateCcw, Check, Trophy, Sparkles } from 'lucide-react';
+import { Share2, RotateCcw, Check, Trophy, Sparkles, Home } from 'lucide-react';
+import { AdBanner } from './AdBanner';
 
 interface ResultModalProps {
   score: number;
@@ -11,9 +12,17 @@ interface ResultModalProps {
   historyResults: boolean[];
   mode: GameMode;
   onRestart: () => void;
+  onGoHome?: () => void;
 }
 
-export const ResultModal: React.FC<ResultModalProps> = ({ score, maxStreak, historyResults, mode, onRestart }) => {
+export const ResultModal: React.FC<ResultModalProps> = ({
+  score,
+  maxStreak,
+  historyResults,
+  mode,
+  onRestart,
+  onGoHome,
+}) => {
   const [copied, setCopied] = useState(false);
   const { title, emoji } = getHistoryTitle(score);
 
@@ -58,12 +67,17 @@ export const ResultModal: React.FC<ResultModalProps> = ({ score, maxStreak, hist
         </div>
 
         {/* 이모지 그리드 */}
-        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/70 mb-5 text-sm tracking-widest break-all font-mono">
+        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/70 mb-4 text-sm tracking-widest break-all font-mono">
           {emojiGrid || '🏁'}
         </div>
 
+        {/* 광고 배너 슬롯 */}
+        <div className="my-3">
+          <AdBanner format="banner" className="h-[52px] bg-slate-100 border-slate-200 text-slate-500" />
+        </div>
+
         {/* 액션 버튼 */}
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col gap-2">
           <button
             type="button"
             onClick={handleShare}
@@ -76,11 +90,22 @@ export const ResultModal: React.FC<ResultModalProps> = ({ score, maxStreak, hist
           <button
             type="button"
             onClick={onRestart}
-            className="w-full py-3.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-[0.98] text-slate-700 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+            className="w-full py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-[0.98] text-slate-800 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-4 h-4 text-slate-600" />
             <span>다시 도전하기</span>
           </button>
+
+          {onGoHome && (
+            <button
+              type="button"
+              onClick={onGoHome}
+              className="w-full py-2.5 px-4 rounded-xl text-slate-500 hover:text-slate-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span>홈 화면으로 이동</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
