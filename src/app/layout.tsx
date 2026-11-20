@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { PwaInstallPrompt } from '@/components/PwaInstallPrompt';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://wikitrivia-ko.vercel.app'),
@@ -35,6 +36,10 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   manifest: '/manifest.json',
+  icons: {
+    icon: '/icon-192.png',
+    apple: '/apple-touch-icon.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -186,6 +191,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased font-sans bg-slate-900 text-slate-100 overflow-x-hidden min-h-screen">
         {children}
+        <PwaInstallPrompt />
       </body>
     </html>
   );
