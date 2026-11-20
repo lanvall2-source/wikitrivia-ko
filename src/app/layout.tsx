@@ -75,10 +75,15 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: 'MXxK7Skf_b4dZ_lDgqkenVyyTW97jUhCA5c1kDphQow',
+    other: {
+      'naver-site-verification': '494dec9680c99b9f0ea91bd99f50e4416fb5bd21',
+    },
+  },
   other: {
-    // 네이버 서치어드바이저 및 구글 서치콘솔 소유 확인 태그 지원
-    'naver-site-verification': 'trivio-naver-verification',
-    'google-site-verification': 'trivio-google-verification',
+    'naver-site-verification': '494dec9680c99b9f0ea91bd99f50e4416fb5bd21',
+    'google-site-verification': 'MXxK7Skf_b4dZ_lDgqkenVyyTW97jUhCA5c1kDphQow',
   },
 };
 
