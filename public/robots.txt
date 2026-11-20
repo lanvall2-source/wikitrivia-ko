@@ -1,0 +1,7 @@
+# Robots.txt for Trivio (트리비오)
+User-agent: *
+Allow: /
+
+# Host & Sitemap
+Host: https://wikitrivia-ko.vercel.app
+Sitemap: https://wikitrivia-ko.vercel.app/sitemap.xml

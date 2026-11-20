@@ -130,10 +130,27 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
           <div className="flex flex-col items-center">
             <span className="text-base mb-1">📚</span>
-            <span className="font-bold text-slate-300 text-[11px]">12개 카테고리</span>
-            <span className="text-[10px] text-slate-400">영화·음악·게임·역사</span>
+            <span className="font-bold text-slate-300 text-[11px]">150종 사건 덱</span>
+            <span className="text-[10px] text-slate-400">한국사·세계사·대중문화</span>
           </div>
         </div>
+
+        {/* 검색 로봇(SEO 크롤러)을 위한 시맨틱 콘텐츠 */}
+        <article className="sr-only">
+          <h2>트리비오(Trivio) - 한국어 타임라인 역사 상식 퀴즈 게임</h2>
+          <p>
+            위키트리비아(WikiTrivia)의 감성을 한국 사용자에 맞게 재해석한 타임라인 상식 퀴즈 게임입니다.
+            단군왕검 고조선 건국부터 현대 K-POP, 인공지능 역사까지 150종의 방대한 사건 카드를 올바른 시간순으로 배치해보세요.
+          </p>
+          <ul>
+            <li>한반도 5천년 실록: 한국사 주요 사건 순서 맞추기</li>
+            <li>세계사 &amp; 격동의 전장: 인류 문명사와 세계 대전</li>
+            <li>팝 컬처 &amp; 엔터: 전설적인 영화와 빌보드 명곡</li>
+            <li>게이머즈 오디세이: 패미컴 마리오부터 최신 닌텐도 스위치까지 비디오 게임 역사</li>
+            <li>실리콘밸리 &amp; 테크: 백열전구 발명부터 스마트폰과 ChatGPT까지 기술사</li>
+            <li>불멸의 챔피언스: 올림픽과 월드컵의 명장면 스포츠 역사</li>
+          </ul>
+        </article>
       </footer>
     </div>
   );
