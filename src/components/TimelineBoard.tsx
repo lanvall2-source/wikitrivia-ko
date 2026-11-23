@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import { PlacedEvent } from '@/types/game';
 import { EventCard } from './EventCard';
 import { PlacementSlot } from './PlacementSlot';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface TimelineBoardProps {
   placedCards: PlacedEvent[];
@@ -23,19 +24,63 @@ export const TimelineBoard: React.FC<TimelineBoardProps> = ({ placedCards, onPla
     }
   }, [placedCards.length]);
 
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -220, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 220, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="relative w-full overflow-x-auto pb-6 pt-4 scrollbar-thin scrollbar-thumb-slate-700" ref={scrollRef}>
-      <div className="absolute top-[82px] left-8 right-8 h-1 bg-gradient-to-r from-indigo-300 via-amber-300 to-rose-300 -z-0 rounded-full" />
+    <div className="w-full flex flex-col justify-end">
+      {/* 타임라인 상단 네비게이션 & 방향 가이드바 */}
+      <div className="flex items-center justify-between px-3 sm:px-6 py-1.5 text-xs text-slate-400 border-b border-slate-800/80 bg-slate-950/70">
+        <button
+          type="button"
+          onClick={scrollLeft}
+          className="flex items-center gap-1 font-bold text-amber-400 hover:text-amber-300 active:scale-95 transition-all cursor-pointer px-2 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-750"
+        >
+          <ChevronLeft className="w-3.5 h-3.5" />
+          <span>과거 (←)</span>
+        </button>
 
-      <div className="flex items-center min-w-max px-6 sm:px-12 space-x-2 relative z-10">
-        <PlacementSlot index={0} onPlace={onPlace} disabled={!isInteractable} />
+        <span className="text-[11px] font-black text-slate-300 tracking-tight">
+          ⏳ 타임라인 ({placedCards.length}개 카드)
+        </span>
 
-        {placedCards.map((card, idx) => (
-          <React.Fragment key={`${card.id}-${idx}`}>
-            <EventCard event={card} />
-            <PlacementSlot index={idx + 1} onPlace={onPlace} disabled={!isInteractable} />
-          </React.Fragment>
-        ))}
+        <button
+          type="button"
+          onClick={scrollRight}
+          className="flex items-center gap-1 font-bold text-amber-400 hover:text-amber-300 active:scale-95 transition-all cursor-pointer px-2 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-750"
+        >
+          <span>(→) 미래</span>
+          <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
+      {/* 가로 스크롤 카드 보드 */}
+      <div
+        className="relative w-full overflow-x-auto py-3 scrollbar-thin scrollbar-thumb-slate-700 select-none"
+        ref={scrollRef}
+      >
+        {/* 타임라인 연결선 */}
+        <div className="absolute top-[88px] left-6 right-6 h-1 bg-gradient-to-r from-indigo-400 via-amber-400 to-rose-400 -z-0 rounded-full opacity-60 pointer-events-none" />
+
+        <div className="flex items-center min-w-max px-4 sm:px-8 space-x-2 relative z-10">
+          <PlacementSlot index={0} onPlace={onPlace} disabled={!isInteractable} />
+
+          {placedCards.map((card, idx) => (
+            <React.Fragment key={`${card.id}-${idx}`}>
+              <EventCard event={card} />
+              <PlacementSlot index={idx + 1} onPlace={onPlace} disabled={!isInteractable} />
+            </React.Fragment>
+          ))}
+        </div>
       </div>
     </div>
   );

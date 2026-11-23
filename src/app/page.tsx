@@ -10,6 +10,7 @@ import {
 } from '@/lib/game-logic';
 import { HomeScreen } from '@/components/HomeScreen';
 import { EventCard } from '@/components/EventCard';
+import { CurrentQuestionCard } from '@/components/CurrentQuestionCard';
 import { TimelineBoard } from '@/components/TimelineBoard';
 import { ResultModal } from '@/components/ResultModal';
 import { CategoryBrowserModal } from '@/components/CategoryBrowserModal';
@@ -200,10 +201,11 @@ export default function TrivioPage() {
 
   // 2. 퀴즈 게임 화면 (Game Play View)
   return (
-    <main className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between selection:bg-amber-500 selection:text-white">
-      {/* 1. 상단 글로벌 헤더 & 상태바 */}
-      <header className="px-4 py-3 sm:px-8 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+    <main className="h-screen h-[100dvh] bg-slate-900 text-slate-100 flex flex-col justify-between select-none relative overflow-hidden">
+      {/* 1. 상단 미니멀 통합 헤더바 */}
+      <header className="px-3 py-2 sm:px-6 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md z-30 flex items-center justify-between shrink-0">
+        {/* 좌측: 홈 버튼 & 카테고리/모드 알약 */}
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setView('home')}
@@ -213,152 +215,95 @@ export default function TrivioPage() {
             <Home className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-amber-500 flex items-center justify-center font-black text-white text-sm shadow-md shrink-0">
-              T
+          {mode === 'endless' ? (
+            <button
+              type="button"
+              onClick={() => setIsCategoryModalOpen(true)}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-750 active:bg-slate-700 border border-slate-700 text-xs text-slate-200 cursor-pointer shadow-xs"
+              title="카테고리 변경"
+            >
+              <span>{currentThemeInfo.icon}</span>
+              <span className="font-extrabold text-white text-xs max-w-[80px] sm:max-w-none truncate">
+                {currentThemeInfo.name}
+              </span>
+              <ChevronDown className="w-3 h-3 text-amber-400" />
+            </button>
+          ) : (
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-indigo-950/60 border border-indigo-500/40 text-xs text-indigo-300 font-bold">
+              <Calendar className="w-3 h-3" />
+              <span>데일리</span>
             </div>
-            <h1 className="text-sm sm:text-base font-black tracking-tight text-white flex items-center gap-1.5 whitespace-nowrap">
-              트리비오 <span className="text-[9px] bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-black px-1.5 py-0.5 rounded-sm">TRIVIO</span>
-            </h1>
-          </div>
+          )}
         </div>
 
-        {/* 점수 & 목숨 상태 */}
-        <div className="flex items-center gap-4 sm:gap-6">
+        {/* 중앙: 목숨 & 연속 정답 */}
+        <div className="flex items-center gap-3">
           <div className="flex items-center gap-1" aria-label={`남은 목숨 ${lives}개`}>
             {[...Array(3)].map((_, i) => (
               <Heart
                 key={i}
-                className={`w-5 h-5 transition-transform ${
+                className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${
                   i < lives ? 'text-rose-500 fill-rose-500 scale-100' : 'text-slate-700 fill-slate-800 scale-90'
                 }`}
               />
             ))}
           </div>
 
-          <div className="flex items-center gap-3 text-sm">
-            <span className="flex items-center gap-1 text-orange-400 font-bold" title="연속 정답(Streak)">
-              <Flame className="w-4 h-4 fill-orange-400" />
-              {streak}
-            </span>
-            <span className="font-extrabold text-white text-base">
-              {score} <span className="text-xs text-slate-400 font-normal">점</span>
-            </span>
+          <span className="flex items-center gap-0.5 text-orange-400 font-black text-xs sm:text-sm" title="연속 정답(Streak)">
+            <Flame className="w-3.5 h-3.5 fill-orange-400" />
+            {streak}
+          </span>
+        </div>
 
-            {/* 사운드 음소거 토글 */}
-            <button
-              type="button"
-              onClick={toggleMute}
-              className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
-              title={isMuted ? '소리 켜기' : '소리 끄기'}
-              aria-label={isMuted ? '소리 켜기' : '소리 끄기'}
-            >
-              {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
-            </button>
+        {/* 우측: 점수 & 사운드 음소거 */}
+        <div className="flex items-center gap-2">
+          <div className="bg-slate-800/90 px-2.5 py-1 rounded-xl border border-slate-700/80 text-xs font-black text-amber-300">
+            {score} <span className="text-[10px] text-slate-400 font-normal">점</span>
           </div>
+
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            title={isMuted ? '소리 켜기' : '소리 끄기'}
+            aria-label={isMuted ? '소리 켜기' : '소리 끄기'}
+          >
+            {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+          </button>
         </div>
       </header>
 
-      {/* 2. 상단 게임 모드 & 카테고리 컨트롤바 (모바일 반응형 최적화) */}
-      <div className="max-w-xl mx-auto w-full px-4 pt-2.5 space-y-2">
-        {/* 모드 탭 (무한 모드 / 데일리 퀴즈) & 최고 기록 */}
-        <div className="flex items-center justify-between gap-2">
-          {/* 세그먼트 모드 탭 */}
-          <div className="flex items-center bg-slate-950/70 p-1 rounded-xl border border-slate-800 text-xs shadow-inner shrink-0">
-            <button
-              type="button"
-              onClick={() => launchGame('endless', theme)}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer whitespace-nowrap ${
-                mode === 'endless'
-                  ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              무한 모드
-            </button>
-            <button
-              type="button"
-              onClick={() => launchGame('daily', 'all')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap ${
-                mode === 'daily'
-                  ? 'bg-amber-500 text-slate-950 shadow-md scale-[1.02]'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Calendar className="w-3.5 h-3.5 shrink-0" />
-              <span>데일리 퀴즈</span>
-            </button>
-          </div>
-
-          {/* 최고 기록 */}
-          <div className="flex items-center gap-1 bg-slate-800/80 px-2.5 py-1.5 rounded-xl border border-slate-700/60 text-xs shrink-0 whitespace-nowrap">
-            <Trophy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span className="text-[11px] text-slate-400 font-semibold">최고</span>
-            <strong className="text-amber-300 font-black">{highScore}점</strong>
-          </div>
-        </div>
-
-        {/* 카테고리 선택 알약 버튼 */}
-        {mode === 'endless' ? (
-          <button
-            type="button"
-            onClick={() => setIsCategoryModalOpen(true)}
-            className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-750 active:bg-slate-700 border border-slate-700/80 hover:border-amber-400/60 transition-all text-xs text-slate-200 cursor-pointer shadow-sm group"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-sm">{currentThemeInfo.icon}</span>
-              <span className="font-extrabold text-white text-xs">{currentThemeInfo.name}</span>
-              <span className="text-[10px] text-slate-400 font-medium">카테고리</span>
-            </div>
-            <div className="flex items-center gap-1 text-[11px] font-bold text-amber-400 group-hover:text-amber-300">
-              <span>변경</span>
-              <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
-            </div>
-          </button>
-        ) : (
-          <div className="px-3 py-1.5 rounded-xl bg-indigo-950/40 border border-indigo-500/30 text-center text-[11px] text-indigo-300 font-medium">
-            📅 오늘 날짜 고정 출제 (총 10문제 챌린지)
-          </div>
-        )}
-      </div>
-
-      {/* 3. 중앙 출제 카드 영역 */}
-      <div className="my-auto py-2 flex flex-col items-center">
+      {/* 2. 중앙 문제 출제 영역 (모바일 가로 핏 카드) */}
+      <div className="flex-1 flex flex-col justify-center items-center px-3 py-1 relative z-20">
         {feedbackMsg && (
           <div
-            className={`text-xs font-bold px-3 py-1 rounded-full mb-2.5 animate-bounce ${
+            className={`text-xs font-black px-3 py-1 rounded-full mb-2 animate-bounce shadow-md ${
               feedbackMsg.type === 'correct'
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                ? 'bg-emerald-500 text-slate-950 border border-emerald-400'
+                : 'bg-rose-500 text-white border border-rose-400'
             }`}
           >
             {feedbackMsg.text}
           </div>
         )}
 
-        <div className="text-xs text-slate-400 font-semibold mb-2 flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>카드를 드래그하거나 타임라인 슬롯(⬇)을 눌러 이동하세요 (💡 힌트 보기 지원)</span>
-        </div>
-
         {currentCard ? (
-          <EventCard
-            event={currentCard}
-            isCurrent
+          <CurrentQuestionCard
+            card={currentCard}
             onDragStart={(e) => {
               e.dataTransfer.setData('text/plain', currentCard.id);
             }}
           />
         ) : (
-          <div className="w-[220px] h-[240px] rounded-2xl border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-500">
-            <Layers className="w-8 h-8 mb-2" />
-            <span className="text-xs font-bold">덱의 모든 카드를 소진했습니다!</span>
+          <div className="w-full max-w-sm h-28 rounded-2xl border-2 border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-500">
+            <Layers className="w-6 h-6 mb-1 text-slate-400" />
+            <span className="text-xs font-bold text-slate-300">모든 카드를 맞혔습니다!</span>
           </div>
         )}
       </div>
 
-      {/* 4. 하단 타임라인 보드 */}
-      <div className="w-full bg-slate-950/60 border-t border-slate-800/80 backdrop-blur-md">
+      {/* 3. 하단 타임라인 보드 (한눈에 2.5~3장 확인 & 원터치 삽입) */}
+      <div className="w-full bg-slate-950/90 border-t border-slate-800 backdrop-blur-md shrink-0">
         <TimelineBoard
           placedCards={placedCards}
           onPlace={handlePlaceCard}
