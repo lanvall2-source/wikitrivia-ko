@@ -24,6 +24,11 @@ export const PwaInstallPrompt: React.FC = () => {
     // 1. Desktop guard: run check on client only
     if (typeof window === 'undefined') return;
 
+    // Suppress in Toss App WebView
+    if (typeof navigator !== 'undefined' && /Toss|AppsInToss/i.test(navigator.userAgent)) {
+      return;
+    }
+
     // Check if running in standalone mode (already installed as PWA)
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||

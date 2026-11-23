@@ -5,7 +5,12 @@ const isGithubActions = !isTossBuild && (process.env.GITHUB_ACTIONS || false);
 const nextConfig = {
   reactStrictMode: true,
   output: 'export',
-  ...(isGithubActions
+  ...(isTossBuild
+    ? {
+        assetPrefix: './',
+        trailingSlash: true,
+      }
+    : isGithubActions
     ? {
         basePath: '/wikitrivia-ko',
         assetPrefix: '/wikitrivia-ko/',

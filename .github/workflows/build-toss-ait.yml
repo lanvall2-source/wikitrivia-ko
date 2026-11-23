@@ -31,8 +31,13 @@ jobs:
 
       - name: Build Official Toss AIT Bundle
         run: |
-          npm install --no-save @apps-in-toss/ait-format @apps-in-toss/ait-format-proto uuidv7
-          node scripts/pack-toss-ait.mjs
+          npm install --no-save @apps-in-toss/cli @apps-in-toss/ait-format @apps-in-toss/ait-format-proto uuidv7
+          if npx ait build; then
+            echo "Successfully built wikitrivia.ait with official ait build!"
+          else
+            echo "Fallback to pack-toss-ait.mjs..."
+            node scripts/pack-toss-ait.mjs
+          fi
           ls -lh wikitrivia.ait
 
       - name: Upload AIT Artifact

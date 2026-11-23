@@ -16,6 +16,21 @@ const deploymentId = uuidv7();
 const appName = 'wikitrivia';
 console.log(`📌 Generated deploymentId: ${deploymentId}`);
 
+const pkgJsonPath = path.resolve(projectRoot, 'package.json');
+const projectPackageJson = fs.existsSync(pkgJsonPath)
+  ? JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8'))
+  : {};
+
+const appsInTossConfig = {
+  appName,
+  brand: {
+    displayName: '트리비오',
+    primaryColor: '#3182F6',
+  },
+  permissions: [],
+  webBundleDir: 'out',
+};
+
 const writer = new AITWriter({
   appName,
   deploymentId,
@@ -25,6 +40,11 @@ const writer = new AITWriter({
 writer.setMetadata({
   platform: PlatformType.WEB,
   sdkVersion: '3.10.0',
+  packageJson: projectPackageJson,
+  extra: {
+    unityMetadata: null,
+    appsInTossConfig,
+  },
 });
 
 // Recursively collect all files from out/
@@ -74,10 +94,7 @@ const bundleJson = {
     name: '@apps-in-toss/web-framework',
     version: '3.10.0',
   },
-  config: {
-    appName,
-    webBundleDir: 'out',
-  },
+  config: appsInTossConfig,
 };
 writer.addFile('bundle.json', new Uint8Array(Buffer.from(JSON.stringify(bundleJson, null, 2), 'utf-8')));
 
