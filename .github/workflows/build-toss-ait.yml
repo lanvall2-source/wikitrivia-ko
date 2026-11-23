@@ -24,26 +24,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build Next.js Static Export (Toss WebView)
+      - name: Build Next.js Static Export
         env:
           TOSS_BUILD: "true"
         run: npm run build
 
-      - name: Create Toss app.json Metadata
+      - name: Build Official Toss AIT Bundle
         run: |
-          cat << 'EOF' > ./out/app.json
-          {
-            "appName": "wikitrivia",
-            "version": "1.0.0",
-            "entry": "index.html"
-          }
-          EOF
-
-      - name: Package into wikitrivia.ait Bundle
-        run: |
-          cd out
-          zip -r ../wikitrivia.ait . -x "*.DS_Store"
-          cd ..
+          npx @apps-in-toss/cli build
           ls -lh wikitrivia.ait
 
       - name: Upload AIT Artifact
@@ -59,7 +47,7 @@ jobs:
         with:
           tag_name: v1.0.0-toss
           name: "트리비오 토스 미니앱 번들 (wikitrivia.ait)"
-          body: "앱인토스 콘솔 등록용 wikitrivia.ait 번들 파일입니다."
+          body: "앱인토스 공식 CLI(@apps-in-toss/cli)로 생성된 정식 deploymentId 포함 번들입니다."
           files: wikitrivia.ait
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
