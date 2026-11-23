@@ -31,7 +31,8 @@ jobs:
 
       - name: Build Official Toss AIT Bundle
         run: |
-          npx @apps-in-toss/cli build
+          npm install --no-save @apps-in-toss/ait-format @apps-in-toss/ait-format-proto uuidv7
+          node scripts/pack-toss-ait.mjs
           ls -lh wikitrivia.ait
 
       - name: Upload AIT Artifact
@@ -47,7 +48,7 @@ jobs:
         with:
           tag_name: v1.0.0-toss
           name: "트리비오 토스 미니앱 번들 (wikitrivia.ait)"
-          body: "앱인토스 공식 CLI(@apps-in-toss/cli)로 생성된 정식 deploymentId 포함 번들입니다."
+          body: "정식 AITBUNDL 포맷 및 deploymentId가 완벽하게 포함된 토스 앱 번들입니다."
           files: wikitrivia.ait
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
