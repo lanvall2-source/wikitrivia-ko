@@ -1,0 +1,65 @@
+name: Build Toss AIT Bundle
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js Static Export (Toss WebView)
+        env:
+          TOSS_BUILD: "true"
+        run: npm run build
+
+      - name: Create Toss app.json Metadata
+        run: |
+          cat << 'EOF' > ./out/app.json
+          {
+            "appName": "wikitrivia",
+            "version": "1.0.0",
+            "entry": "index.html"
+          }
+          EOF
+
+      - name: Package into wikitrivia.ait Bundle
+        run: |
+          cd out
+          zip -r ../wikitrivia.ait . -x "*.DS_Store"
+          cd ..
+          ls -lh wikitrivia.ait
+
+      - name: Upload AIT Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wikitrivia-ait
+          path: wikitrivia.ait
+          if-no-files-found: error
+
+      - name: Publish Toss Bundle Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main'
+        with:
+          tag_name: v1.0.0-toss
+          name: "트리비오 토스 미니앱 번들 (wikitrivia.ait)"
+          body: "앱인토스 콘솔 등록용 wikitrivia.ait 번들 파일입니다."
+          files: wikitrivia.ait
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

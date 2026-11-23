@@ -1,11 +1,12 @@
-const isGithubActions = process.env.GITHUB_ACTIONS || false;
+const isTossBuild = process.env.TOSS_BUILD === 'true';
+const isGithubActions = !isTossBuild && (process.env.GITHUB_ACTIONS || false);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'export',
   ...(isGithubActions
     ? {
-        output: 'export',
         basePath: '/wikitrivia-ko',
         assetPrefix: '/wikitrivia-ko/',
       }
