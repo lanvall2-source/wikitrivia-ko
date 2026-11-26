@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { PwaInstallPrompt } from '@/components/PwaInstallPrompt';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://wikitrivia-ko.vercel.app'),
@@ -190,6 +191,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased font-sans bg-slate-900 text-slate-100 overflow-x-hidden min-h-screen">
+        <GoogleAnalytics />
         {children}
         <PwaInstallPrompt />
       </body>
